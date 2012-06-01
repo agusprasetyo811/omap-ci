@@ -1,0 +1,25 @@
+@CHARSET "ISO-8859-1";
+#layout{
+	position: relative;
+	margin: auto;
+	border: 1px solid black;
+	width: 60%;
+}
+#header {
+	position: relative;
+	margin: auto;
+	border: 1px solid black;
+	height: 300px;
+}
+#body {
+	position: relative;
+	margin: auto;
+	border: 1px solid black;
+	min-height: 600px;
+}
+#footer {
+	position: relative;
+	margin: auto;
+	border: 1px solid black;
+	padding: 5px;
+}
