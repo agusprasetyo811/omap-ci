@@ -11,4 +11,5 @@ Template Library in Codeigniter like Omap Templating
 * <b>system/</b><br>`core/config.php`<br>
 
 ## Usage
-* Open `application/config/config.php` and see `$config['theme'] = 'omap-ci';` this is name of theme, Take a look `application/views/`
+* Open `application/config/config.php` and see `$config['theme'] = 'omap-ci';` this is name of theme, Take a look `application/views/` This can be changed in accordance with the `views/{name_of_theme}`
+* Open 'application/controllers/dasbor.php' this is example of usage omap-ci template library.<br>Call `$this->liblaly('template.php');` to activate this library.<br>
