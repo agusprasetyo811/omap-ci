@@ -15,4 +15,4 @@ Template Library in Codeigniter like Omap Templating
 * Open `application/controllers/dasbor.php` this is example of usage omap-ci template library.<br>
  - Call `$this->load->liblaly('template.php');` to activate this library.<br> 
  - OMAP-ci have some type of view that separated like `module` or `pages`<br>Call `$this->template->type('module')` to set module or  `$this->template->type('pages')` to set pages
-* Open `application/views/index.php` to see format including pages and module with '{...}'
+* Open `application/views/index.php` to see format including pages and module with `{...}` see `{MODULE}` and `{PAGES}`
