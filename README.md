@@ -11,4 +11,4 @@ Template Library in Codeigniter like Omap Templating
 * <b>system/</b><br>core/config.php<br>
 
 ## Usage
-* Open application/config.php and see $config['theme'] = 'omap-ci';
+* Open @application/config/config.php@ and see @$config['theme'] = 'omap-ci';@ this is name of theme, Take a look @application/views/@
