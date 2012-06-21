@@ -1,1 +1,0 @@
-INI ADALAH PAGE REGISTER . <?php echo ' by '. $content?>

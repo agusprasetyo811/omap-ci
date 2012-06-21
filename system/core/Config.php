@@ -91,7 +91,10 @@ class CI_Config {
 		define('TEMPLATE_PATH', $this->config['base_url'].'template/'.THEME);
 		
 		// Define Style PATH
-		define('STYLE_URL', $this->config['base_url'].'template/'.THEME.'/style');
+		define('STYLE_PATH', TEMPLATE_PATH.'/style/');
+		
+		// Define Js  PATH
+		define('JS_PATH', TEMPLATE_PATH.'/js/');
 		
 	}
 

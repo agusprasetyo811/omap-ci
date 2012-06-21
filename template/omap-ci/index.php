@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link href="<?=STYLE_URL?>/style/style.css" rel="stylesheet" type="text/css" />
+<link href="{STYLE}style.css" rel="stylesheet" type="text/css" />
 <title>Insert title here</title>
 </head>
 <body>

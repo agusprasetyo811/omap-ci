@@ -45,6 +45,11 @@ class Template {
 		$this->tpl->load->view($label."/".$body, $data, false);
 		$file_data[strtoupper($label)] = ob_get_contents();
 		ob_end_clean();
+		
+		ob_start();
+		$file_data['STYLE'] = STYLE_PATH;
+		$file_data['JS'] = JS_PATH;
+		ob_end_clean();
 
 		ob_start();
 		$template_path = 'template/'.THEME.'/index.php';
