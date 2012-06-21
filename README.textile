@@ -1,16 +1,35 @@
-omap-ci
-=======
+
+h1. omap-ci
 
 Template Library in Codeigniter like Omap Templating
 
-## Setup
-* Place all this file into Codeigniter Source. (Replaces)
+h2. Setup
 
-## Structure
-* <b>appliction/</b> <br>`config/config.php`<br>`controllers/dasbor.php`<br>`libraries/template.php`<br>`views/omap-ci/pages/anyfile_page.php`<br>`views/omap-ci/modules/anyfile_module.php`<br>`views/omap-ci/style/style.css`<br>`views/index.php`)
-* <b>system/</b><br>`core/config.php`<br>
+Place all this file into Codeigniter Source.
+* Setup @development.properties@ to set Codeigniter destination  
+* Run @ant remote.compile@ to build all
 
-## Usage
+h2. Structure
+
+* <b>Appliction</b>
+** @config/config.php@
+** @controllers/dasbor.php@
+** @libraries/omap.php@
+** @views/omap-ci/pages/my_pages.php@
+** @views/omap-ci/modules/my_modules.php@
+
+* <b>System/</b>
+** @core/config.php@
+
+* <b>Template/</b>
+** @omap-ci/index.php@
+** @omap-ci/images@
+** @omap-ci/style/style.css@
+** @omap-ci/js/@
+
+
+h2.  Usage
+
 * Open `application/config/config.php` and see `$config['theme'] = 'omap-ci';` this is name of theme, Take a look `application/views/` This can be changed in accordance with the `views/{name_of_theme}`
 * Open `application/controllers/dasbor.php` this is example of usage omap-ci template library.<br>
  - Call `$this->load->liblaly('template.php');` to activate this library.<br> 

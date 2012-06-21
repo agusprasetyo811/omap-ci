@@ -7,9 +7,9 @@
 </head>
 <body>
 	<div id="layout">
-		<div id="header">HEDER PERTAMA</div>
-		<div id="body">{DASBOR}{DASBOR}{DASBOR}</div>
-		<div id="footer">INI ADALAH FOOTER</div>
+		<div id="header"></div>
+		<div id="body">{DASBOR}</div>
+		<div id="footer"></div>
 	</div>
 </body>
 </html>
