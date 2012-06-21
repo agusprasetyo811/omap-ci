@@ -1,2 +1,1 @@
-AGUS BOCAH BAGUS 
-<?php echo $content?>
+<div id="xx"><?php echo $content?></div>

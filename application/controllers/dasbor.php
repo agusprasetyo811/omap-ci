@@ -8,9 +8,11 @@ class Dasbor extends CI_Controller {
 	}
 	
 	public function index() {
-		$data['content'] = 'agus'; 
-		$this->template->type('pages');
-		$this->template->display('my_pages', $data);
+		$data['content'] = 'ini adalah dataku'; 
+		
+		$this->template->title('omap-ciscc');
+		$this->template->label('model');
+		$this->template->display('my_pages', $data, 'pages');
 	}
 }
 

@@ -3,12 +3,12 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <link href="{STYLE}style.css" rel="stylesheet" type="text/css" />
-<title>Insert title here</title>
+<title>{TITLE}</title>
 </head>
 <body>
 	<div id="layout">
-		<div id="header">INI ADALAH HEADER</div>
-		<div id="body">{PAGES}</div>
+		<div id="header">{JS}INI ADALAH HEADER</div>
+		<div id="body">{MODEL}</div>
 		<div id="footer">INI ADALAH FOOTER</div>
 	</div>
 </body>
