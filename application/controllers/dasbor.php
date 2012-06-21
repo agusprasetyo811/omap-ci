@@ -9,8 +9,8 @@ class Dasbor extends CI_Controller {
 	
 	public function index() {
 		$data['content'] = 'agus'; 
-		$this->template->type('module');
-		$this->template->display('home', $data, 'pages');
+		$this->template->type('pages');
+		$this->template->display('my_pages', $data);
 	}
 }
 

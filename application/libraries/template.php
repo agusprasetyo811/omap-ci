@@ -42,7 +42,7 @@ class Template {
 		}
 
 		ob_start();
-		$this->tpl->load->view(THEME.'/'.$label."/".$body, $data, false);
+		$this->tpl->load->view($label."/".$body, $data, false);
 		$file_data[strtoupper($label)] = ob_get_contents();
 		ob_end_clean();
 
