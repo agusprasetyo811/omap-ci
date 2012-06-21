@@ -12,7 +12,7 @@ class Dasbor extends CI_Controller {
 		
 		$this->omap->title('Welcome');
 		$this->omap->label('models');
-		$this->omap->display('my_pages', $data, 'pages');
+		$this->omap->display('my_pages', $data, 'pages'); 
 	}
 }
 
