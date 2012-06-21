@@ -10,9 +10,10 @@ class Dasbor extends CI_Controller {
 	public function index() {
 		$data['content'] = 'ini adalah website pertamaku pake CI'; 
 		
+		$this->omap->type('pages');
 		$this->omap->title('Welcome');
 		$this->omap->label('dasbor');
-		$this->omap->display('my_pages', $data, 'pages'); 
+		$this->omap->display('my_pages', $data); 
 	}
 }
 

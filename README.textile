@@ -32,6 +32,26 @@ h2.  Usage
 h3. Setup Theme
 
 * Open @application/config/config.php@ 
-** Setup @$config['theme']@ any name default is <b>omap-ci</b>
+** Setup @$config['theme']@ any name. Default is <b>omap-ci</b>
 
-h1. Happy Try
+h3. Omap-ci Usage
+
+* Installing omap-ci libraries you can see @controllers/dasbor.php@
+** @$this->load->library('omap')@
+
+* Omap-ci setup title to set title of websites
+** @$this->omap->title('Welcome Omap-Ci')@
+
+* Omap-ci setup type to set type of class (pages or module)
+** @$this->omap->type('pages')@
+** @$this->omap->type('modules')@
+
+* Omap-ci setup label to set label. This is usage to put the class type pages or module to the template.
+** @$this->omap->label('login')@ 
+** At @template/omap-ci/index.php@ it will initialized @{LOGIN}@  
+
+* Omap-ci setup display to set display.
+** @$this->omap->display('my_files',$any_data)@ 
+** my_files is name of file that saved in modules or pages dependent the type of class 
+
+h2. Happy Try
