@@ -87,14 +87,17 @@ class CI_Config {
 			define('THEME', $this->config['theme']);
 		}
 		
-		// Define Template theme path
+		// Define Template theme path (omap-ci)
 		define('TEMPLATE_PATH', $this->config['base_url'].'template/'.THEME);
 		
-		// Define Style PATH
+		// Define Style PATH (omap-ci)
 		define('STYLE_PATH', TEMPLATE_PATH.'/style/');
 		
-		// Define Js  PATH
+		// Define Js  PATH (omap-ci)
 		define('JS_PATH', TEMPLATE_PATH.'/js/');
+		
+		// Define images  PATH (omap-ci)
+		define('IMG_PATH', TEMPLATE_PATH.'/images/');
 		
 	}
 

@@ -13,6 +13,7 @@
 	<property name="tpl.dir" value="template/omap-ci" />
 	<property name="tpl.style.dir" value="template/omap-ci/style" />
 	<property name="tpl.js.dir" value="template/omap-ci/js" />
+	<property name="tpl.img.dir" value="template/omap-ci/images" />
 
 	<target name="remote.compile">
 		<copy file="${app.config.dir}/config.php" todir="${ci.local.dir}${app.config.dir}" overwrite="true">
@@ -33,6 +34,11 @@
 		</copy>
 		<copy todir="${ci.local.dir}${tpl.js.dir}" overwrite="true">
 			<fileset dir="${tpl.js.dir}">
+				<exclude name="*" />
+			</fileset>
+		</copy>
+		<copy todir="${ci.local.dir}${tpl.img.dir}" overwrite="true">
+			<fileset dir="${tpl.img.dir}">
 				<exclude name="*" />
 			</fileset>
 		</copy>

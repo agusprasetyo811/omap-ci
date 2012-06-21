@@ -111,6 +111,7 @@ class Omap {
 		ob_start();
 		$file_data['STYLE'] = STYLE_PATH;
 		$file_data['JS'] = JS_PATH;
+		$file_data['IMAGES'] = IMG_PATH;
 		ob_end_clean();
 		
 		ob_start();
