@@ -19,7 +19,7 @@
 		</copy>
 		<copy file="${app.controllers.dir}/dasbor.php" todir="${ci.local.dir}${app.controllers.dir}" overwrite="true">
 		</copy>
-		<copy file="${app.libraries.dir}/template.php" todir="${ci.local.dir}${app.libraries.dir}" overwrite="true">
+		<copy file="${app.libraries.dir}/omap.php" todir="${ci.local.dir}${app.libraries.dir}" overwrite="true">
 		</copy>
 		<copy file="${app.views.pages.dir}/my_pages.php" todir="${ci.local.dir}${app.views.pages.dir}" overwrite="true">
 		</copy>

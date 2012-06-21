@@ -10,6 +10,7 @@
 	margin: auto;
 	border: 1px solid black;
 	height: 300px;
+	background:blue;
 }
 #body {
 	position: relative;

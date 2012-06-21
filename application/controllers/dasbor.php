@@ -4,14 +4,14 @@ class Dasbor extends CI_Controller {
 	
 	public function __construct() {
 		parent::__construct();
-		$this->load->library('template');
+		$this->load->library('omap');
 	}
 	
 	public function index() {
-		$data['content'] = 'aku orangnya bagus'; 
+		$data['content'] = 'ini adalah website pertamaku pake CI'; 
 		
 		$this->omap->title('Welcome');
-		$this->omap->label('models');
+		$this->omap->label('dasbor');
 		$this->omap->display('my_pages', $data, 'pages'); 
 	}
 }

@@ -1,1 +1,1 @@
-<div id="xx"><?php echo $content?></div>
+<input type="text" value="<?php echo $content?>"/><hr>
