@@ -8,7 +8,7 @@
 <body>
 	<div id="layout">
 		<div id="header"></div>
-		<div id="body">{DASBOR}</div>
+		<div id="body"><img src="{IMAGES}icon.png"/></div>
 		<div id="footer"></div>
 	</div>
 </body>
