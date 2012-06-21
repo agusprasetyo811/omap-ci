@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<project name="omap-ci" default="build" basedir=".">
+
+	<property name="lib.template" value="application/libraries" />
+	<property name="dir.top" value="c:/" />
+
+	<target name="Symlink.Create">
+		<mkdir dir="c:/hahaha"/>
+		<touch file="c:/hahaha/symlink.test" />
+		<symlink link="c:/foo.test" resource="c:/hahaha/symlink.test"/>
+		 
+	</target>
+
+	<target name="build">
+		<javac srcdir="." />
+	</target>
+</project>
