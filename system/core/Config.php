@@ -87,8 +87,11 @@ class CI_Config {
 			define('THEME', $this->config['theme']);
 		}
 		
-		// Define Style URL
-		define('STYLE_URL', $this->config['base_url'].APPPATH.'views/'.THEME);
+		// Define Template theme path
+		define('TEMPLATE_PATH', $this->config['base_url'].'template/'.THEME);
+		
+		// Define Style PATH
+		define('STYLE_URL', $this->config['base_url'].'template/'.THEME.'/style');
 		
 	}
 

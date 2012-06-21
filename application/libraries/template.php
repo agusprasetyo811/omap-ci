@@ -40,15 +40,15 @@ class Template {
 		} else {
 			$label = $type;
 		}
-		
+
 		ob_start();
 		$this->tpl->load->view(THEME.'/'.$label."/".$body, $data, false);
 		$file_data[strtoupper($label)] = ob_get_contents();
 		ob_end_clean();
 
 		ob_start();
-		$template_path = APPPATH.'views/'.THEME.'/index.php';
-		require_once $template_path;
+		$template_path = 'template/'.THEME.'/index.php';
+		require $template_path;
 		$temp_field = ob_get_contents();
 		ob_end_clean();
 		echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_field);

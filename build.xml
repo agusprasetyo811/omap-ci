@@ -11,6 +11,7 @@
 	<property name="app.views.theme.pages.dir" value="application/views/omap-ci/pages/" />
 	<property name="app.views.theme.style.dir" value="application/views/omap-ci/style/" />
 	<property name="sys.core.dir" value="system/core" />
+	<property name="tpl.dir" value="template/omap-ci" />
 
 	<target name="remote.compile">
 		<copy file="${app.config.dir}/config.php" todir="${ci.local.dir}${app.config.dir}" overwrite="true"></copy>
@@ -20,6 +21,7 @@
 		<copy file="${app.views.theme.style.dir}/style.css" todir="${ci.local.dir}${app.views.theme.style.dir}" overwrite="true"></copy>
 		<copy file="${app.views.theme.pages.dir}/home.php" todir="${ci.local.dir}${app.views.theme.pages.dir}" overwrite="true"></copy>
 		<copy file="${sys.core.dir}/Config.php" todir="${ci.local.dir}${sys.core.dir}" overwrite="true"></copy>
+		<copy file="${tpl.dir}/index.php" todir="${ci.local.dir}${tpl.dir}" overwrite="true"></copy>
 	</target>
 
 	<target name="build">
