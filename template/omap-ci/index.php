@@ -8,7 +8,7 @@
 <body>
 	<div id="layout">
 		<div id="header">{JS}INI ADALAH HEADER</div>
-		<div id="body">{MODEL}</div>
+		<div id="body">{MODELS}</div>
 		<div id="footer">INI ADALAH FOOTER</div>
 	</div>
 </body>

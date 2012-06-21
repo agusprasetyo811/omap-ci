@@ -4,7 +4,7 @@
  * Template generator OMAP-CI
  * @author agus prasetyo (agusprasetyo811@gmail.com)
  */
-class Template {
+class Omap {
 
 	var $tpl;
 	var $type = "default";
