@@ -55,14 +55,16 @@ h3. Omap-ci Usage
 ** my_files is name of file that saved in modules or pages dependent the type of class 
 
 * Path for images
-** style @../images/file_images.jpg@
-** index @images/file_images.jpg@
+** style.css @../images/file_images.jpg@
+** index.php @images/file_images.jpg@
 
-* Path for Js and Style 
-** put @{STYLE}@ it same as @http://BASE_URL/template/THEME_NAME/style/@
-** put @{JS}@ it same as @http://BASE_URL/template/THEME_NAME/js/@
+* Path for Js, images and Style 
+** put at index.php of template @{STYLE}@ it same as @http://BASE_URL/template/THEME_NAME/style/@
+** put at index.php of template @{IMAGES}@ it same as @http://BASE_URL/template/THEME_NAME/images/@
+** put at index.php of template @{JS}@ it same as @http://BASE_URL/template/THEME_NAME/js/@
 
 * Title for website
-** put @{TITLE}@ at @<title>...</title>@
+** put at index.php od template @{TITLE}@ at @<title>...</title>@
+
 
 h2. Happy to Try
