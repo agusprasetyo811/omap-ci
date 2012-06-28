@@ -24,7 +24,7 @@
                     </td>
                     <td>
                     	<div id="content-center">
-                    		{BODY_CENTER}
+                    		{DASBOR}
                         </div>
                     </td>
                     <td>
