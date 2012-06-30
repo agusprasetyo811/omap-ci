@@ -112,6 +112,10 @@ class Omap {
 		$file_data['STYLE'] = STYLE_PATH;
 		$file_data['JS'] = JS_PATH;
 		$file_data['IMAGES'] = IMG_PATH;
+		$file_data['SITE'] = base_url().'index.php/';
+		$file_data['AUTHOR'] = '&copy '.date('Y').' omap-ci - omap. All Right Reserved';
+		$file_data['DEVELOPER'] = '<a href="http://github.com/agusprasetyo811/omap-ci/">Developer</a>';
+		$file_data['DEVELOPER_SITE'] = '<a href="http://cmlocator.com/">Website</a>';
 		ob_end_clean();
 		
 		ob_start();

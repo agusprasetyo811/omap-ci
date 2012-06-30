@@ -36,7 +36,7 @@
             </table>
         </div>
         <!-- Footer -->
-        <div id="footer">&copy; <?=date('Y')?> omap-ci - All Right Reserved</div>
+        <div id="footer">{AUTHOR} - {DEVELOPER} - {DEVELOPER_SITE}</div>
     </div>
 </div>
 <br /><br />
