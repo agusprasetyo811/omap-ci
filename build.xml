@@ -16,6 +16,7 @@
 	<property name="tpl.img.dir" value="template/omap-ci/images" />
 
 	<target name="remote.compile">
+		<copy file="${app.config.dir}/autoload.php" todir="${ci.local.dir}${app.config.dir}" overwrite="true"></copy>
 		<copy file="${app.config.dir}/config.php" todir="${ci.local.dir}${app.config.dir}" overwrite="true"></copy>
 		<copy file="${app.config.dir}/routes.php" todir="${ci.local.dir}${app.config.dir}" overwrite="true"></copy>
 		<copy file="${app.controllers.dir}/dasbor.php" todir="${ci.local.dir}${app.controllers.dir}" overwrite="true"></copy>
