@@ -62,7 +62,6 @@ h3. Omap-ci Usage
 
 * Omap-ci setup display to set display for type of page only.
 ** @$this->omap->display('my_files',$any_data)@ 
-** For modules @$this->omap->type('modules')@ 
 ** my_files is name of file that saved in modules or pages dependent the type of class 
 
 * Path for images
