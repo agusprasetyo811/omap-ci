@@ -12,6 +12,8 @@ class Omap {
 	var $title = "default";
 	var $admin = "default";
 	var $modules = "default";
+	var $data = "default";
+	var $template = "default";
 
 	public function __construct() {
 		$this->tpl =& get_instance();
@@ -89,6 +91,32 @@ class Omap {
 	}
 
 	/**
+	 * Fungsi data untuk mengeset data yang mau dikirim ke template
+	 * @param  $data
+	 *
+	 */
+	public function data($data) {
+		$this->data = $data;
+	}
+
+	public function get_data() {
+		return $this->data;
+	}
+	
+	/**
+	 * Fungsi template untuk mengeset file template yang akan digunakan
+	 * @param  $file
+	 *
+	 */
+	public function template($file) {
+		$this->template = $file;
+	}
+
+	public function get_template() {
+		return $this->template;
+	}
+
+	/**
 	 * Fungsi display untuk menampikan template dengan buffer
 	 * @param  $body
 	 * @param  $data
@@ -106,6 +134,8 @@ class Omap {
 		$new_label = null;
 		$new_admin = null;
 		$new_modules = null;
+		$new_data = null;
+		$new_template = "index";
 
 		// Set type dari halaman apakah bertype modules atau pages
 		if ($type == null) {
@@ -175,7 +205,9 @@ class Omap {
 		ob_start();
 		$file_data['TITLE'] = $new_title;
 		$file_data['STYLE'] = STYLE_PATH;
+		$file_data['STYLES'] = base_url().'template/'.$new_admin.'/style/';
 		$file_data['JS'] = JS_PATH;
+		$file_data['JSS'] = base_url().'template/'.$new_admin.'/js/';
 		$file_data['IMAGES'] = IMG_PATH;
 		$file_data['SITE'] = base_url().'index.php/';
 		$file_data['AUTHOR'] = '&copy '.date('Y').' omap-ci - omap. All Right Reserved';
@@ -192,13 +224,27 @@ class Omap {
 			}
 		}
 
+		if ($this->get_data() != "default") {
+			ob_start();
+			$new_data = $this->get_data();
+			$file_data[strtoupper(trim($new_data))] = $new_data;
+			ob_end_clean();
+		}
+		
+		if ($this->get_template() != "default") {
+			ob_start();
+			$new_template = $this->get_template();
+			$file_data[strtoupper(trim($new_template))] = $new_template;
+			ob_end_clean();
+		}
+
 		ob_start();
 		$this->tpl->load->view($new_type."/".$body, $data, false);
 		$file_data[strtoupper($new_label)] = ob_get_contents();
 		ob_end_clean();
 
 		ob_start();
-		$template_path = 'template/'.$new_admin.'/index.php';
+		$template_path = 'template/'.$new_admin.'/'.$new_template.'.php';
 		require $template_path;
 		$temp_field = ob_get_contents();
 		ob_end_clean();
