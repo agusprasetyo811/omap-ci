@@ -46,11 +46,21 @@ h3. Omap-ci Usage
 ** @$this->omap->type('pages')@
 ** @$this->omap->type('modules')@
 
-* Omap-ci setup label to set label. This is usage to put the class type pages or module to the template.
+* Omap-ci setup label to set label. This is usage to put the class type pages to the template.
 ** @$this->omap->label('login')@ 
-** At @template/omap-ci/index.php@ it will initialized @{LOGIN}@  
+** At @template/omap-ci/index.php@ it will initialized @{LOGIN}@ 
 
-* Omap-ci setup display to set display.
+* Except for module type. 
+** @$this->omap->type('modules', 'my_modules')@ or
+** @$this->omap->type('modules', 'my_modules', $any_data)@ 
+** This word 'my_modules' will refer to the file views / modules / my_modules.php
+** You can give any data like $any_data behind 'my_modules'
+
+* To display any modules in type of pages 
+** @$this->omap->modules('module_1, module_2, module_3')@
+** 'module_1, ...' this is name of controllers that have type of modules and will create a label with a name on it. so its look @{MODULE_1}@
+
+* Omap-ci setup display to set display for type of page only.
 ** @$this->omap->display('my_files',$any_data)@ 
 ** my_files is name of file that saved in modules or pages dependent the type of class 
 
