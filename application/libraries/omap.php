@@ -36,7 +36,7 @@ class Omap {
 	}
 
 	/**
-	 * Fungsi title buat ngeset title
+	 * Fungsi title buat ngeset title websites
 	 * @param  $title
 	 */
 	public function title($title) {
@@ -65,11 +65,9 @@ class Omap {
 	 * @param $admin_boolean
 	 *
 	 */
-	public function admin($admin, $admin_boolean = false) {
+	public function admin($admin) {
 		if ($admin_boolean == true) {
 			$this->admin = $admin;
-		} else {
-			$this->admin = THEME;
 		}
 	}
 
@@ -204,10 +202,8 @@ class Omap {
 
 		ob_start();
 		$file_data['TITLE'] = $new_title;
-		$file_data['STYLE'] = STYLE_PATH;
-		$file_data['STYLES'] = base_url().'template/'.$new_admin.'/style/';
-		$file_data['JS'] = JS_PATH;
-		$file_data['JSS'] = base_url().'template/'.$new_admin.'/js/';
+		$file_data['STYLE'] = base_url().'template/'.$new_admin.'/style/';
+		$file_data['JS'] = base_url().'template/'.$new_admin.'/js/';
 		$file_data['IMAGES'] = IMG_PATH;
 		$file_data['SITE'] = base_url().'index.php/';
 		$file_data['AUTHOR'] = '&copy '.date('Y').' omap-ci - omap. All Right Reserved';
