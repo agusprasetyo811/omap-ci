@@ -6,6 +6,7 @@
 	<property name="app.config.dir" value="application/config" />
 	<property name="app.controllers.dir" value="application/controllers" />
 	<property name="app.libraries.dir" value="application/libraries" />
+	<property name="app.helpers.dir" value="application/helpers" />
 	<property name="app.views.dir" value="application/views" />
 	<property name="app.views.pages.dir" value="application/views/pages" />
 	<property name="app.views.modules.dir" value="application/views/modules" />
@@ -29,6 +30,11 @@
 		<copy todir="${ci.local.dir}${tpl.js.dir}" overwrite="true">
 			<fileset dir="${tpl.js.dir}">
 				<exclude name="*" />
+			</fileset>
+		</copy>
+		<copy todir="${ci.local.dir}${app.helpers.dir}" overwrite="true">
+			<fileset dir="${app.helpers.dir}">
+					<exclude name="*" />
 			</fileset>
 		</copy>
 		<copy todir="${ci.local.dir}${tpl.img.dir}" overwrite="true">
