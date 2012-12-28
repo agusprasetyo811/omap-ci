@@ -4,7 +4,7 @@
  * @author agus prasetyo (agusprasetyo811@gmail.com)
  */
 class Omap {
-	
+
 	var $tpl;
 	var $type = "default";
 	var $label = "default";
@@ -97,7 +97,7 @@ class Omap {
 	public function get_data() {
 		return $this->data;
 	}
-	
+
 	/**
 	 * Index to set the index of template who we are use
 	 * @param  $file
@@ -108,7 +108,7 @@ class Omap {
 	}
 
 	public function get_index() {
-		return $this->template;
+		return $this->set_index;
 	}
 
 	/**
@@ -122,7 +122,7 @@ class Omap {
 	 * @param  $modules
 	 *
 	 */
-	public function display($body, $data = null, $type = null, $label = null, $title = null,$set_template = THEME, $modules = null) {
+	public function display($body, $data = null, $type = null, $label = null, $title = null, $set_template = THEME, $set_index = null, $modules = null) {
 
 		$new_type = null;
 		$new_title = null;
@@ -180,7 +180,17 @@ class Omap {
 			$new_template = THEME;
 		}
 
-		// Set kondisional modules
+		if ($set_index == null) {
+			if ($this->get_index() == "") {
+				$new_index = "index";
+			} else if ($this->get_index() == "default") {
+				$new_index = "index";
+			} else {
+				$new_index = $this->get_index();
+			}
+		} else {
+		}
+
 		if ($modules == null) {
 			if ($this->get_modules() == "") {
 				$new_modules = "";
@@ -219,7 +229,7 @@ class Omap {
 			$file_data[strtoupper(trim($new_data))] = $new_data;
 			ob_end_clean();
 		}
-		
+
 		if ($this->get_template() != "default") {
 			ob_start();
 			$new_template = $this->get_template();
@@ -233,7 +243,7 @@ class Omap {
 		ob_end_clean();
 
 		ob_start();
-		$set_index_path = 'template/'.$new_admin.'/'.$new_template.'.php';
+		$set_index_path = 'template/'.$new_template.'/'.$new_index.'.php';
 		require $set_index_path;
 		$temp_field = ob_get_contents();
 		ob_end_clean();
