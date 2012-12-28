@@ -1,26 +1,25 @@
 <?php
-
 /**
  * Template generator OMAP-CI
  * @author agus prasetyo (agusprasetyo811@gmail.com)
  */
 class Omap {
-
+	
 	var $tpl;
 	var $type = "default";
 	var $label = "default";
 	var $title = "default";
-	var $admin = "default";
+	var $set_template = "default";
 	var $modules = "default";
 	var $data = "default";
-	var $template = "default";
+	var $set_index = "default";
 
 	public function __construct() {
 		$this->tpl =& get_instance();
 	}
 
 	/**
-	 * Fungsi type buat ngeset apakah module atau pages
+	 * Type to set is the modules or pages
 	 * @param  $type
 	 */
 	public function type($type, $body = null, $data = null) {
@@ -36,7 +35,7 @@ class Omap {
 	}
 
 	/**
-	 * Fungsi title buat ngeset title websites
+	 * Title to set the title of website
 	 * @param  $title
 	 */
 	public function title($title) {
@@ -48,7 +47,7 @@ class Omap {
 	}
 
 	/**
-	 * Fungsi label buat ngeset label {}
+	 * Label to set the label in template {}
 	 * @param  $label
 	 */
 	public function label($label) {
@@ -60,23 +59,21 @@ class Omap {
 	}
 
 	/**
-	 * Fungsi admin buat ngeset admin aktif atau tidak
-	 * @param  $admin
-	 * @param $admin_boolean
+	 * Template to determine the name of template who we are use
+	 * @param  $set_template
+	 * @param $set_template_boolean
 	 *
 	 */
-	public function admin($admin) {
-		if ($admin_boolean == true) {
-			$this->admin = $admin;
-		}
+	public function template($set_template) {
+		$this->set_template = $set_template;
 	}
 
-	public function get_admin() {
-		return $this->admin;
+	public function get_template() {
+		return $this->set_template;
 	}
 
 	/**
-	 * Fungsi module untuk mengeset modul-modul yang aktif
+	 * Module to set that the modules activate in any controller/views
 	 * @param  $modules
 	 *
 	 */
@@ -89,7 +86,7 @@ class Omap {
 	}
 
 	/**
-	 * Fungsi data untuk mengeset data yang mau dikirim ke template
+	 * Data to set the file that sending to the template
 	 * @param  $data
 	 *
 	 */
@@ -102,40 +99,39 @@ class Omap {
 	}
 	
 	/**
-	 * Fungsi template untuk mengeset file template yang akan digunakan
+	 * Index to set the index of template who we are use
 	 * @param  $file
 	 *
 	 */
-	public function template($file) {
-		$this->template = $file;
+	public function index($file) {
+		$this->set_index = $file;
 	}
 
-	public function get_template() {
+	public function get_index() {
 		return $this->template;
 	}
 
 	/**
-	 * Fungsi display untuk menampikan template dengan buffer
+	 * Display is the end to showing the display setting of omaps-ci
 	 * @param  $body
 	 * @param  $data
 	 * @param  $type
 	 * @param  $label
 	 * @param  $title
-	 * @param  $admin
+	 * @param  $set_template
 	 * @param  $modules
 	 *
 	 */
-	public function display($body, $data = null, $type = null, $label = null, $title = null,$admin = THEME, $modules = null) {
+	public function display($body, $data = null, $type = null, $label = null, $title = null,$set_template = THEME, $modules = null) {
 
 		$new_type = null;
 		$new_title = null;
 		$new_label = null;
-		$new_admin = null;
+		$new_template = null;
 		$new_modules = null;
 		$new_data = null;
-		$new_template = "index";
+		$new_index = "index";
 
-		// Set type dari halaman apakah bertype modules atau pages
 		if ($type == null) {
 			if ($this->get_type() == "") {
 				$new_type = "pages";
@@ -148,7 +144,6 @@ class Omap {
 			$new_type = $type;
 		}
 
-		// Set kondisional title dari website
 		if ($title == null) {
 			if ($this->get_title() == "") {
 				$new_title = "omap-ci";
@@ -161,7 +156,6 @@ class Omap {
 			$new_title = $title;
 		}
 
-		// Set kondisional label name buat penempatan {...}
 		if ($label == null) {
 			if ($this->get_label() == "") {
 				$new_label = "omap-ci";
@@ -174,17 +168,16 @@ class Omap {
 			$new_label = $label;
 		}
 
-		// Set kondisional admin true atau false
-		if ($admin == THEME) {
-			if ($this->get_admin() == "") {
-				$new_admin = THEME;
-			} else if ($this->get_admin() == "default") {
-				$new_admin = THEME;
+		if ($set_template == THEME) {
+			if ($this->get_template() == "") {
+				$new_template = THEME;
+			} else if ($this->get_template() == "default") {
+				$new_template = THEME;
 			} else {
-				$new_admin = $this->get_admin();
+				$new_template = $this->get_template();
 			}
 		} else {
-			$new_admin = THEME;
+			$new_template = THEME;
 		}
 
 		// Set kondisional modules
@@ -202,8 +195,8 @@ class Omap {
 
 		ob_start();
 		$file_data['TITLE'] = $new_title;
-		$file_data['STYLE'] = base_url().'template/'.$new_admin.'/style/';
-		$file_data['JS'] = base_url().'template/'.$new_admin.'/js/';
+		$file_data['STYLE'] = base_url().'template/'.$new_template.'/style/';
+		$file_data['JS'] = base_url().'template/'.$new_template.'/js/';
 		$file_data['IMAGES'] = IMG_PATH;
 		$file_data['SITE'] = base_url().'index.php/';
 		$file_data['AUTHOR'] = '&copy '.date('Y').' omap-ci - omap. All Right Reserved';
@@ -240,8 +233,8 @@ class Omap {
 		ob_end_clean();
 
 		ob_start();
-		$template_path = 'template/'.$new_admin.'/'.$new_template.'.php';
-		require $template_path;
+		$set_index_path = 'template/'.$new_admin.'/'.$new_template.'.php';
+		require $set_index_path;
 		$temp_field = ob_get_contents();
 		ob_end_clean();
 
