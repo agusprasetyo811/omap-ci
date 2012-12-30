@@ -207,7 +207,7 @@ class Omap {
 		$file_data['TITLE'] = $new_title;
 		$file_data['STYLE'] = base_url().'template/'.$new_template.'/style/';
 		$file_data['JS'] = base_url().'template/'.$new_template.'/js/';
-		$file_data['IMAGES'] = IMG_PATH;
+		$file_data['IMAGES'] = IMG_PATH;base_url().'template/'.$new_template.'/images/'
 		$file_data['SITE'] = base_url().'index.php/';
 		$file_data['AUTHOR'] = '&copy '.date('Y').' omap-ci - omap. All Right Reserved';
 		$file_data['DEVELOPER'] = '<a href="http://github.com/agusprasetyo811/omap-ci/">Developer</a>';
