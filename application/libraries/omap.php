@@ -219,7 +219,7 @@ class Omap {
 			$count_modules = explode(',',$new_modules);
 			foreach ($count_modules as $modules) {
 				ob_start();
-				$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim($modules));
+				$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)));
 				ob_end_clean();
 			}
 		}
