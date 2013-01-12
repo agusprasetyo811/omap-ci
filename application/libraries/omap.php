@@ -13,6 +13,7 @@ class Omap {
 	var $modules = "default";
 	var $data = "default";
 	var $set_index = "default";
+	var $set_view = "default";
 
 	public function __construct() {
 		$this->tpl =& get_instance();
@@ -110,6 +111,19 @@ class Omap {
 	public function get_index() {
 		return $this->set_index;
 	}
+	
+	/**
+	 * View to set the folder view is modules/pages
+	 * @param  $folder_fiew
+	 *
+	 */
+	public function view($folder_fiew) {
+		$this->set_view = $folder_fiew;
+	}
+	
+	public function get_view() {
+		return $this->set_view;
+	}
 
 	/**
 	 * Display is the end to showing the display setting of omaps-ci
@@ -131,6 +145,7 @@ class Omap {
 		$new_modules = null;
 		$new_data = null;
 		$new_index = "index";
+		$new_view = null;
 
 		if ($type == null) {
 			if ($this->get_type() == "") {
@@ -142,6 +157,12 @@ class Omap {
 			}
 		} else {
 			$new_type = $type;
+		}
+		
+		if ($this->get_view() == "" || $this->get_view() == "default") {
+			$new_view = $new_type;
+		} else {
+			$new_view = $this->get_view();
 		}
 
 		if ($title == null) {
@@ -207,7 +228,7 @@ class Omap {
 		$file_data['TITLE'] = $new_title;
 		$file_data['STYLE'] = base_url().'template/'.$new_template.'/style/';
 		$file_data['JS'] = base_url().'template/'.$new_template.'/js/';
-		$file_data['IMAGES'] = IMG_PATH;base_url().'template/'.$new_template.'/images/'
+		$file_data['IMAGES'] = base_url().'template/'.$new_template.'/images/';
 		$file_data['SITE_INDEX'] = base_url().'index.php/';
 		$file_data['SITE'] = base_url();
 		$file_data['AUTHOR'] = '&copy '.date('Y').' omap-ci - omap. All Right Reserved';
@@ -239,7 +260,7 @@ class Omap {
 		}
 
 		ob_start();
-		$this->tpl->load->view($new_type."/".$body, $data, false);
+		$this->tpl->load->view($new_view."/".$body, $data, false);
 		$file_data[strtoupper($new_label)] = ob_get_contents();
 		ob_end_clean();
 
