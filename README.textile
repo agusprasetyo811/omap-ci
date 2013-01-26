@@ -1,7 +1,8 @@
 
 h1. omap-ci
 
-Template Library in Codeigniter like Omap Templating
+Templating Library Codeigniter
+
 
 h2. Structure
 
