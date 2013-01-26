@@ -3,29 +3,77 @@ h1. omap-ci
 
 Template Library in Codeigniter like Omap Templating
 
-h2. Setup
-
-Place all this file into Codeigniter Source.
-* Setup @development.properties@ to set Codeigniter destination  
-* Run @ant remote.compile@ to build all
-
 h2. Structure
 
 * <b>Appliction</b>
 ** @config/config.php@
 ** @controllers/dasbor.php@
-** @libraries/omap.php@
 ** @views/omap-ci/pages/my_pages.php@
 ** @views/omap-ci/modules/my_modules.php@
 
 * <b>System/</b>
 ** @core/config.php@
+** @libraries/omap.php@
 
 * <b>Template/</b>
 ** @omap-ci/index.php@
 ** @omap-ci/images@
 ** @omap-ci/style/style.css@
 ** @omap-ci/js/@
+
+h2. Method Reference
+
+* @$this->omap->title('tilte');@
+* @$this->omap->label('label');@
+* @$this->omap->type('type');@
+* @$this->omap->modules('type');@
+* @$this->omap->index('index');@
+* @$this->omap->template('template');@
+* @$this->omap->view('view');@
+* @$this->omap->display('display');@
+
+h2. Helper Reference
+
+* mobile
+** @detect_mobile();@
+* myfiles
+** @write_to_file($file,$data);@
+** @reading_file($file_txt);@
+* session
+** @get_access_login($session_name);@
+* symbol
+** @rp($data);@
+* time
+** @get_jam();@
+** @time_sum($time1, $time2);@
+** @date_deadline($tgl_now, $deadline=3, $deadline_bulan=0, $deadline_tahun=0);@
+* upload
+** @do_upload($files,$path);@
+** @multi_do_upload($files,$path);@
+* validation
+** @val_email($email);@
+** @val_no($key);@
+** @val_phone($key);@
+** @val_word($key);@
+** @limit_validation;@
+** @replace($karakter, $string);@
+
+h2. Labels Reference
+
+* @{SITE}@
+* @{SITE_INDEX}@
+* @{STYLE}@
+* @{JS}@
+* @{IMAGES}@
+* @{AUTHOR}@
+* @{DEVELOPER}@
+* @{DEVELOPER_SITE}@
+
+h2. Setup
+
+Place all this file into Codeigniter Source.
+* Setup @development.properties@ to set Codeigniter destination  
+* Run @ant remote.compile@ to build all
 
 h2.  Usage
 
@@ -35,9 +83,6 @@ h3. Setup Theme
 ** Setup @$config['theme']@ any name. Default is <b>omap-ci</b>
 
 h3. Omap-ci Usage
-
-* Installing omap-ci libraries you can see @controllers/dasbor.php@
-** @$this->load->library('omap')@
 
 * Omap-ci setup title to set title of websites
 ** @$this->omap->title('Welcome Omap-Ci')@
