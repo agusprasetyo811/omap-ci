@@ -89,6 +89,12 @@ class CI_Config {
 		
 		// Define Author (omap-ci)
 		define('AUTHOR', $this->config['author']);
+		
+		// Define Since (omap-ci)
+		define('SINCE', $this->config['since']);
+		
+		// Define Version (omap-ci)
+		define('VERSION', $this->config['version']);
 
 		// Define Author (omap-ci)
 		define('DEVELOPER', $this->config['developer']);

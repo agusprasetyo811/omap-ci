@@ -243,20 +243,20 @@ class Omap {
 				$new_index = $this->get_index();
 			}
 		}
-		
-		# Manage template process
-			if ($this->get_template() != "default") {
-				ob_start();
-				$new_template = $this->get_template();
-				$file_data[strtoupper(trim($new_template))] = $new_template;
-				ob_end_clean();
-			}
 
-			# Manage view process
+		# Manage template process
+		if ($this->get_template() != "default") {
 			ob_start();
-			$this->tpl->load->view($new_view."/".$body, $data, false);
-			$file_data[strtoupper($new_label)] = ob_get_contents();
+			$new_template = $this->get_template();
+			$file_data[strtoupper(trim($new_template))] = $new_template;
 			ob_end_clean();
+		}
+
+		# Manage view process
+		ob_start();
+		$this->tpl->load->view($new_view."/".$body, $data, false);
+		$file_data[strtoupper($new_label)] = ob_get_contents();
+		ob_end_clean();
 
 		# Define modules that added in any pages
 		if ($modules == null) {
@@ -279,6 +279,8 @@ class Omap {
 		$file_data['SITE_INDEX'] = base_url().'index.php/';
 		$file_data['SITE'] = base_url();
 		$file_data['AUTHOR'] = AUTHOR;
+		$file_data['VERSION'] = VERSION;
+		$file_data['SINCE'] = SINCE;
 		$file_data['DEVELOPER'] = DEVELOPER;
 		ob_end_clean();
 
@@ -294,10 +296,11 @@ class Omap {
 						# is $modules_data is_array then exec http_build_query
 						if(is_array($this->modules_data)) {
 							$build_query_modules_data = http_build_query($this->modules_data,'',';');
-							$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules.'?data='.$build_query_modules_data)));
+							$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?data='.$build_query_modules_data);
 						} else {
-							$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules.'?data='.$this->modules_data)));
-						}		
+							// $file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?data='.str_replace(' ','______', $this->modules_data));
+							$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?data='.$this->modules_data);
+						}
 					}
 				}
 			}
@@ -309,7 +312,7 @@ class Omap {
 				$file_data[strtoupper(trim($new_data))] = $new_data;
 				ob_end_clean();
 			}
-				
+
 			# Buffer to template
 			ob_start();
 			$set_index_path = 'template/'.$new_template.'/'.$new_index.'.php';
@@ -319,19 +322,20 @@ class Omap {
 			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_field);
 		} else {
 			# Get modules_data
+			// $modules_data = str_replace('______',' ', @$_GET['data']);
 			$modules_data = @$_GET['data'];
 			$new_modules_data = str_replace(';','&',$modules_data);
 			@parse_str($new_modules_data, $output_modules_data);
-			
 			if (is_array($output_modules_data)) {
+				$output_modules_data;
 				@extract($output_modules_data);
 			} else {
 				$modules_data;
-			}
-			
+			}				
+
 			# Extract variable
 			@extract($data);
-				
+
 			# Buffer to templates
 			ob_start();
 			$set_index_path = 'application/views/modules/'.$body.'.php';

@@ -46,7 +46,27 @@ $config['theme'] = 'omap-ci';
 | Author of Omaps-CI Developers
 |
 */
-$config['author'] = 'OMAPS LABS - Agus Prasetyo (agusprasetyo811@gmail.com)';
+$config['author'] = 'OMAPS LABS - Agus Prasetyo(agusprasetyo811@gmail.com)';
+
+/*
+|--------------------------------------------------------------------------
+| Since
+|--------------------------------------------------------------------------
+|
+| Omaps-CI since
+|
+*/
+$config['since'] = '2012-'.date('Y');
+
+/*
+|--------------------------------------------------------------------------
+| Versions
+|--------------------------------------------------------------------------
+|
+| Omaps-CI version
+|
+*/
+$config['version'] = 'Omaps-ci 4.0';
 
 /*
 |--------------------------------------------------------------------------

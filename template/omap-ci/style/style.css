@@ -8,5 +8,5 @@
 #content-left { width:180px; min-height:600px; padding:5px; border-right:1px #DDD dotted; }
 #content-center { width:530px; min-height:600px; padding:5px; }
 #content-right { width:180px; padding:5px; min-height:600px; border-left:1px #DDD dotted; }
-#footer { position:relative; width:880px; padding:10px; margin:auto; }
+#footer { position:relative; width:880px; padding:10px; margin:auto; font-size: small; }
 hr { border: 1px dotted gray;}

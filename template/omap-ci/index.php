@@ -22,7 +22,7 @@
 	                    </td>
 	                    <td>
 	                    	<div id="content-center">
-	                    		{DASBOR}
+	                    		{DASBOR}{MOD_DASBOR}
 	                        </div>
 	                    </td>
 	                    <td>
@@ -33,7 +33,7 @@
 	                </tr>
 	            </table>
 	        </div>
-	        <div id="footer">{AUTHOR} - {DEVELOPER} - {DEVELOPER_SITE}</div>
+	        <div id="footer">&copy; {SINCE} - {VERSION} {AUTHOR} - <a href="{DEVELOPER}">Link</a></div>
 	    </div>
 	</div>
 </body>

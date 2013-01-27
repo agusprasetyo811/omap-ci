@@ -21,6 +21,7 @@
 		<copy file="${app.config.dir}/config.php" todir="${ci.local.dir}${app.config.dir}" overwrite="true"></copy>
 		<copy file="${app.config.dir}/routes.php" todir="${ci.local.dir}${app.config.dir}" overwrite="true"></copy>
 		<copy file="${app.controllers.dir}/dasbor.php" todir="${ci.local.dir}${app.controllers.dir}" overwrite="true"></copy>
+		<copy file="${app.controllers.dir}/mod_dasbor.php" todir="${ci.local.dir}${app.controllers.dir}" overwrite="true"></copy>
 		<copy file="${app.views.pages.dir}/my_pages.php" todir="${ci.local.dir}${app.views.pages.dir}" overwrite="true"></copy>
 		<copy file="${app.views.modules.dir}/my_modules.php" todir="${ci.local.dir}${app.views.modules.dir}" overwrite="true"></copy>
 		<copy file="${sys.core.dir}/Config.php" todir="${ci.local.dir}${sys.core.dir}" overwrite="true"></copy>
