@@ -1,23 +1,23 @@
 <?php
 /**
  * OMAPS-CI
- * 
+ *
  * Template generator OMAP-CI
- * 
+ *
  * @author 		OMAPS LABS Agus Prasetyo (agusprasetyo811@gmail.com)
  * @copyright	Copyright (c) 2012 - 2013, OMAPS LABS
  * @link		http://cmlocator.com
  * @filesource 	http://github.com/agusprasetyo811/omap-ci
  * @since		Version 4.0
- * 
+ *
  */
 
 // ------------------------------------------------------------------------
 
 /**
- * Omap Library Class 
+ * Omap Library Class
  *
- * This class create the view make two type (pages/modules) to added in templaes  
+ * This class create the view make two type (pages/modules) to added in templaes
  *
  * @subpackage	Libraries
  * @category	Libraries
@@ -30,11 +30,12 @@ class Omap {
 	var $type = "default";
 	var $label = "default";
 	var $title = "default";
-	var $set_template = "default";
 	var $modules = "default";
+	var $modules_data = "default";
 	var $data = "default";
 	var $set_index = "default";
 	var $set_view = "default";
+	var $set_template = "default";
 
 	public function __construct() {
 		$this->tpl =& get_instance();
@@ -103,8 +104,9 @@ class Omap {
 	 * @param  $modules
 	 *
 	 */
-	public function modules($modules) {
+	public function modules($modules, $modules_data = null) {
 		$this->modules = $modules;
+		$this->modules_data = $modules_data;
 	}
 
 	public function get_modules() {
@@ -241,6 +243,20 @@ class Omap {
 				$new_index = $this->get_index();
 			}
 		}
+		
+		# Manage template process
+			if ($this->get_template() != "default") {
+				ob_start();
+				$new_template = $this->get_template();
+				$file_data[strtoupper(trim($new_template))] = $new_template;
+				ob_end_clean();
+			}
+
+			# Manage view process
+			ob_start();
+			$this->tpl->load->view($new_view."/".$body, $data, false);
+			$file_data[strtoupper($new_label)] = ob_get_contents();
+			ob_end_clean();
 
 		# Define modules that added in any pages
 		if ($modules == null) {
@@ -267,14 +283,22 @@ class Omap {
 		ob_end_clean();
 
 		if ($new_type == 'pages') {
-				
 			# Manage module process
 			if ($new_modules != "") {
 				$count_modules = explode(',',$new_modules);
 				foreach ($count_modules as $modules) {
-					ob_start();
-					$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)));
-					ob_end_clean();
+					# Prepare $modules_data to be default
+					if ($this->modules_data == null ) {
+						$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)));
+					} else {
+						# is $modules_data is_array then exec http_build_query
+						if(is_array($this->modules_data)) {
+							$build_query_modules_data = http_build_query($this->modules_data,'',';');
+							$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules.'?data='.$build_query_modules_data)));
+						} else {
+							$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules.'?data='.$this->modules_data)));
+						}		
+					}
 				}
 			}
 
@@ -285,21 +309,8 @@ class Omap {
 				$file_data[strtoupper(trim($new_data))] = $new_data;
 				ob_end_clean();
 			}
-
-			# Manage template process
-			if ($this->get_template() != "default") {
-				ob_start();
-				$new_template = $this->get_template();
-				$file_data[strtoupper(trim($new_template))] = $new_template;
-				ob_end_clean();
-			}
-
-			# Manage view process
-			ob_start();
-			$this->tpl->load->view($new_view."/".$body, $data, false);
-			$file_data[strtoupper($new_label)] = ob_get_contents();
-			ob_end_clean();
-
+				
+			# Buffer to template
 			ob_start();
 			$set_index_path = 'template/'.$new_template.'/'.$new_index.'.php';
 			require $set_index_path;
@@ -307,7 +318,21 @@ class Omap {
 			ob_end_clean();
 			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_field);
 		} else {
-			extract($data);
+			# Get modules_data
+			$modules_data = @$_GET['data'];
+			$new_modules_data = str_replace(';','&',$modules_data);
+			@parse_str($new_modules_data, $output_modules_data);
+			
+			if (is_array($output_modules_data)) {
+				@extract($output_modules_data);
+			} else {
+				$modules_data;
+			}
+			
+			# Extract variable
+			@extract($data);
+				
+			# Buffer to templates
 			ob_start();
 			$set_index_path = 'application/views/modules/'.$body.'.php';
 			require $set_index_path;
