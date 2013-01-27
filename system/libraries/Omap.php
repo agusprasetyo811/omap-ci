@@ -15,7 +15,7 @@
 // ------------------------------------------------------------------------
 
 /**
- * Omap Library Class
+ * Omap Library Class 
  *
  * This class create the view make two type (pages/modules) to added in templaes  
  *
