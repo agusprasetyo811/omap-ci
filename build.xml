@@ -27,20 +27,15 @@
 		<copy file="${sys.libraries.dir}/omap.php" todir="${ci.local.dir}${sys.libraries.dir}" overwrite="true"></copy>
 		<copy file="${tpl.dir}/index.php" todir="${ci.local.dir}${tpl.dir}" overwrite="true"></copy>
 		<copy file="${tpl.style.dir}/style.css" todir="${ci.local.dir}${tpl.style.dir}" overwrite="true"></copy>
-		<copy todir="${ci.local.dir}${tpl.js.dir}" overwrite="true">
-			<fileset dir="${tpl.js.dir}">
-				<exclude name="*" />
-			</fileset>
+		
+		<copy todir="${ci.local.dir}${tpl.js.dir}" overwrite="true" flatten="true">
+			<fileset dir="${tpl.js.dir}" />
 		</copy>
-		<copy todir="${ci.local.dir}${app.helpers.dir}" overwrite="true">
-			<fileset dir="${app.helpers.dir}">
-					<exclude name="*" />
-			</fileset>
+		<copy todir="${ci.local.dir}${app.helpers.dir}" overwrite="true" flatten="true">
+			<fileset dir="${app.helpers.dir}"/>
 		</copy>
-		<copy todir="${ci.local.dir}${tpl.img.dir}" overwrite="true">
-			<fileset dir="${tpl.img.dir}">
-				<exclude name="*" />
-			</fileset>
+		<copy todir="${ci.local.dir}${tpl.img.dir}" overwrite="true" flatten="true">
+			<fileset dir="${tpl.img.dir}"/>
 		</copy>
 	</target>
 
