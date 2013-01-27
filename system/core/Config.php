@@ -87,6 +87,12 @@ class CI_Config {
 			define('THEME', $this->config['theme']);
 		}
 		
+		// Define Author (omap-ci)
+		define('AUTHOR', $this->config['author']);
+
+		// Define Author (omap-ci)
+		define('DEVELOPER', $this->config['developer']);
+		
 		// Define Template theme path (omap-ci)
 		define('TEMPLATE_PATH', $this->config['base_url'].'template/'.THEME);
 		

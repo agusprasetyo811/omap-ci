@@ -1,7 +1,28 @@
 <?php
 /**
+ * OMAPS-CI
+ * 
  * Template generator OMAP-CI
- * @author agus prasetyo (agusprasetyo811@gmail.com)
+ * 
+ * @author 		OMAPS LABS Agus Prasetyo (agusprasetyo811@gmail.com)
+ * @copyright	Copyright (c) 2012 - 2013, OMAPS LABS
+ * @link		http://cmlocator.com
+ * @filesource 	http://github.com/agusprasetyo811/omap-ci
+ * @since		Version 4.0
+ * 
+ */
+
+// ------------------------------------------------------------------------
+
+/**
+ * Omap Library Class
+ *
+ * This class create the view make two type (pages/modules) to added in templaes  
+ *
+ * @subpackage	Libraries
+ * @category	Libraries
+ * @author		OMAPS LABS
+ * @link 		http://cmlocator.com
  */
 class Omap {
 
@@ -25,7 +46,11 @@ class Omap {
 	 */
 	public function type($type, $body = null, $data = null) {
 		if ($type == 'modules') {
-			$this->tpl->load->view($type.'/'.$body, $data);
+			if ($body == null) {
+				$this->type = $type;
+			} else {
+				$this->tpl->load->view($type.'/'.$body, $data);
+			}
 		} else {
 			$this->type = $type;
 		}
@@ -111,7 +136,7 @@ class Omap {
 	public function get_index() {
 		return $this->set_index;
 	}
-	
+
 	/**
 	 * View to set the folder view is modules/pages
 	 * @param  $folder_fiew
@@ -120,7 +145,7 @@ class Omap {
 	public function view($folder_fiew) {
 		$this->set_view = $folder_fiew;
 	}
-	
+
 	public function get_view() {
 		return $this->set_view;
 	}
@@ -147,6 +172,7 @@ class Omap {
 		$new_index = "index";
 		$new_view = null;
 
+		# Define type is module or pages
 		if ($type == null) {
 			if ($this->get_type() == "") {
 				$new_type = "pages";
@@ -158,13 +184,15 @@ class Omap {
 		} else {
 			$new_type = $type;
 		}
-		
+
+		# Define is any view to set in pages for ex: pages request modules file
 		if ($this->get_view() == "" || $this->get_view() == "default") {
 			$new_view = $new_type;
 		} else {
 			$new_view = $this->get_view();
 		}
 
+		# Define title of websites
 		if ($title == null) {
 			if ($this->get_title() == "") {
 				$new_title = "omap-ci";
@@ -177,6 +205,7 @@ class Omap {
 			$new_title = $title;
 		}
 
+		# Define label to template
 		if ($label == null) {
 			if ($this->get_label() == "") {
 				$new_label = "omap-ci";
@@ -189,6 +218,7 @@ class Omap {
 			$new_label = $label;
 		}
 
+		# Define another template
 		if ($set_template == THEME) {
 			if ($this->get_template() == "") {
 				$new_template = THEME;
@@ -201,6 +231,7 @@ class Omap {
 			$new_template = THEME;
 		}
 
+		# Define index of templates
 		if ($set_index == null) {
 			if ($this->get_index() == "") {
 				$new_index = "index";
@@ -209,9 +240,9 @@ class Omap {
 			} else {
 				$new_index = $this->get_index();
 			}
-		} else {
 		}
 
+		# Define modules that added in any pages
 		if ($modules == null) {
 			if ($this->get_modules() == "") {
 				$new_modules = "";
@@ -231,46 +262,59 @@ class Omap {
 		$file_data['IMAGES'] = base_url().'template/'.$new_template.'/images/';
 		$file_data['SITE_INDEX'] = base_url().'index.php/';
 		$file_data['SITE'] = base_url();
-		$file_data['AUTHOR'] = '&copy '.date('Y').' omap-ci - omap. All Right Reserved';
-		$file_data['DEVELOPER'] = '<a href="http://github.com/agusprasetyo811/omap-ci/">Developer</a>';
-		$file_data['DEVELOPER_SITE'] = '<a href="http://cmlocator.com/">Website</a>';
+		$file_data['AUTHOR'] = AUTHOR;
+		$file_data['DEVELOPER'] = DEVELOPER;
 		ob_end_clean();
 
-		if ($new_modules != "") {
-			$count_modules = explode(',',$new_modules);
-			foreach ($count_modules as $modules) {
+		if ($new_type == 'pages') {
+				
+			# Manage module process
+			if ($new_modules != "") {
+				$count_modules = explode(',',$new_modules);
+				foreach ($count_modules as $modules) {
+					ob_start();
+					$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)));
+					ob_end_clean();
+				}
+			}
+
+			# Manage data
+			if ($this->get_data() != "default") {
 				ob_start();
-				$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)));
+				$new_data = $this->get_data();
+				$file_data[strtoupper(trim($new_data))] = $new_data;
 				ob_end_clean();
 			}
-		}
 
-		if ($this->get_data() != "default") {
+			# Manage template process
+			if ($this->get_template() != "default") {
+				ob_start();
+				$new_template = $this->get_template();
+				$file_data[strtoupper(trim($new_template))] = $new_template;
+				ob_end_clean();
+			}
+
+			# Manage view process
 			ob_start();
-			$new_data = $this->get_data();
-			$file_data[strtoupper(trim($new_data))] = $new_data;
+			$this->tpl->load->view($new_view."/".$body, $data, false);
+			$file_data[strtoupper($new_label)] = ob_get_contents();
 			ob_end_clean();
-		}
 
-		if ($this->get_template() != "default") {
 			ob_start();
-			$new_template = $this->get_template();
-			$file_data[strtoupper(trim($new_template))] = $new_template;
+			$set_index_path = 'template/'.$new_template.'/'.$new_index.'.php';
+			require $set_index_path;
+			$temp_field = ob_get_contents();
 			ob_end_clean();
+			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_field);
+		} else {
+			extract($data);
+			ob_start();
+			$set_index_path = 'application/views/modules/'.$body.'.php';
+			require $set_index_path;
+			$temp_field = ob_get_contents();
+			ob_end_clean();
+			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_field);
 		}
-
-		ob_start();
-		$this->tpl->load->view($new_view."/".$body, $data, false);
-		$file_data[strtoupper($new_label)] = ob_get_contents();
-		ob_end_clean();
-
-		ob_start();
-		$set_index_path = 'template/'.$new_template.'/'.$new_index.'.php';
-		require $set_index_path;
-		$temp_field = ob_get_contents();
-		ob_end_clean();
-
-		echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_field);
 	}
 }
 /* End of file omap.php */
