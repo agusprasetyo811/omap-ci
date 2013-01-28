@@ -21,6 +21,18 @@ function val_word($key){
 	return @eregi( "^[0-9a-z]([-/]?[0-9a-z])+$", $key);
 }
 
+function val_comment($key){
+	return @eregi( "^[A-Za-z0-9-\_\.\,\:\/\'\ ]+$", $key);
+}
+
+function val_quote($key){
+	return @eregi( "^[A-Za-z0-9_\.\,\-\:\/\']+$", $key);
+}
+
+function var_userlog($key){
+	return @eregi( "^[A-Za-z0-9]+$", $key);
+}
+
 function limit_validation($key,$start_limit, $end_limit){
 	return @eregi( "^.{".$start_limit.",".$end_limit."}$", $key);
 }

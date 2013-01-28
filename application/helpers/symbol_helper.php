@@ -5,6 +5,7 @@
  * email : agusprasetyo811@gmail.com
  ***********************************************************************/ 
 
+// Rp Symbol
 function rp($data) {
 	if ($data != "") {
 		$rupiah = "";
