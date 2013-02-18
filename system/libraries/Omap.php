@@ -8,7 +8,7 @@
  * @copyright	Copyright (c) 2012 - 2013, OMAPS LABS
  * @link		http://cmlocator.com
  * @filesource 	http://github.com/agusprasetyo811/omap-ci
- * @since		Version 4.0
+ * @since		Version 4.1
  *
  */
 
@@ -252,12 +252,6 @@ class Omap {
 			ob_end_clean();
 		}
 
-		# Manage view process
-		ob_start();
-		$this->tpl->load->view($new_view."/".$body, $data, false);
-		$file_data[strtoupper($new_label)] = ob_get_contents();
-		ob_end_clean();
-
 		# Define modules that added in any pages
 		if ($modules == null) {
 			if ($this->get_modules() == "") {
@@ -284,7 +278,7 @@ class Omap {
 		$file_data['DEVELOPER'] = DEVELOPER;
 		ob_end_clean();
 
-		if ($new_type == 'pages') {
+		if ($new_type == 'pages') {	
 			# Manage module process
 			if ($new_modules != "") {
 				$count_modules = explode(',',$new_modules);
@@ -309,6 +303,24 @@ class Omap {
 				$file_data[strtoupper(trim($new_data))] = $new_data;
 				ob_end_clean();
 			}
+			
+			# Manage view process
+			ob_start();
+			$this->tpl->load->view($new_view."/".$body, $data, false);
+			// Compress HTML
+			$search = array(
+			        '/\>[^\S ]+/s', //strip whitespaces after tags, except space
+			        '/[^\S ]+\</s', //strip whitespaces before tags, except space
+			        '/(\s)+/s'  //shorten multiple whitespace sequences
+			        );
+			$replace = array(
+			        '>',
+			        '<',
+			        '\\1'
+			        );
+			$compress = preg_replace($search, $replace, ob_get_contents());
+			$file_data[strtoupper($new_label)] = $compress;
+			ob_end_clean();
 
 			# Buffer to template
 			ob_start();
