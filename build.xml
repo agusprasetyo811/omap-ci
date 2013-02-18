@@ -39,6 +39,10 @@
 			<fileset dir="${tpl.img.dir}"/>
 		</copy>
 	</target>
+	
+	<target name="remote.create.modules">
+		
+	</target>
 
 	<target name="build">
 		<javac srcdir="." />

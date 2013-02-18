@@ -296,10 +296,7 @@ class Omap {
 						# is $modules_data is_array then exec http_build_query
 						if(is_array($this->modules_data)) {
 							$build_query_modules_data = http_build_query($this->modules_data,'',';');
-							$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?data='.$build_query_modules_data);
-						} else {
-							// $file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?data='.str_replace(' ','______', $this->modules_data));
-							$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?data='.$this->modules_data);
+							$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?modules_data='.$build_query_modules_data);
 						}
 					}
 				}
@@ -318,20 +315,31 @@ class Omap {
 			$set_index_path = 'template/'.$new_template.'/'.$new_index.'.php';
 			require $set_index_path;
 			$temp_field = ob_get_contents();
+			
+			// Compress HTML
+			$search = array(
+			        '/\>[^\S ]+/s', //strip whitespaces after tags, except space
+			        '/[^\S ]+\</s', //strip whitespaces before tags, except space
+			        '/(\s)+/s'  //shorten multiple whitespace sequences
+			        );
+			$replace = array(
+			        '>',
+			        '<',
+			        '\\1'
+			        );
+			$compress = preg_replace($search, $replace, $temp_field);			
 			ob_end_clean();
-			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_field);
+			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$compress);
 		} else {
 			# Get modules_data
 			// $modules_data = str_replace('______',' ', @$_GET['data']);
-			$modules_data = @$_GET['data'];
+			$modules_data = @$_GET['modules_data'];
 			$new_modules_data = str_replace(';','&',$modules_data);
 			@parse_str($new_modules_data, $output_modules_data);
 			if (is_array($output_modules_data)) {
 				$output_modules_data;
 				@extract($output_modules_data);
-			} else {
-				$modules_data;
-			}				
+			}
 
 			# Extract variable
 			@extract($data);
@@ -341,8 +349,22 @@ class Omap {
 			$set_index_path = 'application/views/modules/'.$body.'.php';
 			require $set_index_path;
 			$temp_field = ob_get_contents();
+			
+			// Compress HTML
+			$search = array(
+			        '/\>[^\S ]+/s', //strip whitespaces after tags, except space
+			        '/[^\S ]+\</s', //strip whitespaces before tags, except space
+			        '/(\s)+/s'  // shorten multiple whitespace sequences
+			        );
+			$replace = array(
+			        '>',
+			        '<',
+			        '\\1'
+			        );
+			$compress = preg_replace($search, $replace, $temp_field);
+			
 			ob_end_clean();
-			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_field);
+			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$compress);
 		}
 	}
 }
