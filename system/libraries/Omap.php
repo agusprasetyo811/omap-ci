@@ -8,7 +8,7 @@
  * @copyright	Copyright (c) 2012 - 2013, OMAPS LABS
  * @link		http://cmlocator.com
  * @filesource 	http://github.com/agusprasetyo811/omap-ci
- * @since		Version 4.1
+ * @since		Version 4.2
  *
  */
 
@@ -319,7 +319,7 @@ class Omap {
 			        '\\1'
 			        );
 			$compress = preg_replace($search, $replace, ob_get_contents());
-			$file_data[strtoupper($new_label)] = $compress;
+			$file_data[strtoupper($new_label)] = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$compress);
 			ob_end_clean();
 
 			# Buffer to template

@@ -66,7 +66,7 @@ $config['since'] = '2012-'.date('Y');
 | Omaps-CI version
 |
 */
-$config['version'] = 'Omaps-ci 4.0';
+$config['version'] = 'Omaps-ci 4.2';
 
 /*
 |--------------------------------------------------------------------------
