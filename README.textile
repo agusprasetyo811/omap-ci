@@ -3,25 +3,6 @@ h1. omap-ci
 
 Templating Library Codeigniter
 
-
-h2. Structure
-
-* <b>Appliction</b>
-** @config/config.php@
-** @controllers/dasbor.php@
-** @views/omap-ci/pages/my_pages.php@
-** @views/omap-ci/modules/my_modules.php@
-
-* <b>System/</b>
-** @core/config.php@
-** @libraries/omap.php@
-
-* <b>Template/</b>
-** @omap-ci/index.php@
-** @omap-ci/images@
-** @omap-ci/style/style.css@
-** @omap-ci/js/@
-
 h2. Method Reference
 
 * @$this->omap->title('tilte');@
