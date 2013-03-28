@@ -79,14 +79,14 @@ class CI_Config {
 			}
 			$this->set_item('base_url', $base_url);
 		}
-		
+
 		// Define Theme
 		if ($this->config['theme'] == '') {
 			define('THEME', 'default');
 		} else {
 			define('THEME', $this->config['theme']);
 		}
-		
+
 		// Define Author (omap-ci)
 		define('AUTHOR', $this->config['author']);
 		
@@ -98,19 +98,24 @@ class CI_Config {
 
 		// Define Author (omap-ci)
 		define('DEVELOPER', $this->config['developer']);
-		
+
 		// Define Template theme path (omap-ci)
-		define('TEMPLATE_PATH', $this->config['base_url'].'template/'.THEME);
-		
+		define('TEMPLATE', $this->config['base_url'].'template/'.THEME);
+
 		// Define Style PATH (omap-ci)
-		define('STYLE_PATH', TEMPLATE_PATH.'/style/');
-		
+		define('STYLE', TEMPLATE.'/style/');
+
 		// Define Js  PATH (omap-ci)
-		define('JS_PATH', TEMPLATE_PATH.'/js/');
-		
+		define('JS', TEMPLATE.'/js/');
+
 		// Define images  PATH (omap-ci)
-		define('IMG_PATH', TEMPLATE_PATH.'/images/');
+		define('IMAGES', TEMPLATE.'/images/');
 		
+		// Define site  PATH (omap-ci)
+		define('SITE', $base_url);
+		
+		// Define site_index  PATH (omap-ci)
+		define('SITE_INDEX', $base_url.'index.php/');
 	}
 
 	// --------------------------------------------------------------------
@@ -133,8 +138,8 @@ class CI_Config {
 		foreach ($this->_config_paths as $path)
 		{
 			$check_locations = defined('ENVIRONMENT')
-				? array(ENVIRONMENT.'/'.$file, $file)
-				: array($file);
+			? array(ENVIRONMENT.'/'.$file, $file)
+			: array($file);
 
 			foreach ($check_locations as $location)
 			{
@@ -225,10 +230,10 @@ class CI_Config {
 			{
 				return FALSE;
 			}// Set the theme
-		if ($this->config['theme'] == '') {
-			
-		} else {
-		}
+			if ($this->config['theme'] == '') {
+					
+			} else {
+			}
 
 			$pref = $this->config[$item];
 		}
@@ -318,7 +323,7 @@ class CI_Config {
 	}
 
 	// -------------------------------------------------------------
-	
+
 	/**
 	 * Build URI string for use in Config::site_url() and Config::base_url()
 	 *
@@ -351,7 +356,7 @@ class CI_Config {
 				$uri = $str;
 			}
 		}
-	    return $uri;
+		return $uri;
 	}
 
 	// --------------------------------------------------------------------
