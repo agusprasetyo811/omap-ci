@@ -112,7 +112,7 @@ class CI_Config {
 		define('IMAGES', TEMPLATE.'/images/');
 		
 		// Define site  PATH (omap-ci)
-		define('SITE', base_url());
+		define('SITE', $this->config['base_url']);
 		
 		// Define site_index  PATH (omap-ci)
 		define('SITE_INDEX', SITE.'index.php/');
