@@ -87,12 +87,19 @@ class CI_Config {
 			define('THEME', $this->config['theme']);
 		}
 
+		// Define HTML comperssor
+		if ($this->config['html_comperssor'] != FALSE || $this->config['html_comperssor'] != '') {
+			define('HTML_COMPRESSOR', TRUE);
+		} else {
+			define('HTML_COMPRESSOR', FALSE);
+		}
+
 		// Define Author (omap-ci)
 		define('AUTHOR', $this->config['author']);
-		
+
 		// Define Since (omap-ci)
 		define('SINCE', $this->config['since']);
-		
+
 		// Define Version (omap-ci)
 		define('VERSION', $this->config['version']);
 
@@ -110,10 +117,10 @@ class CI_Config {
 
 		// Define images  PATH (omap-ci)
 		define('IMAGES', TEMPLATE.'/images/');
-		
+
 		// Define site  PATH (omap-ci)
 		define('SITE', $this->config['base_url']);
-		
+
 		// Define site_index  PATH (omap-ci)
 		define('SITE_INDEX', SITE.'index.php/');
 	}

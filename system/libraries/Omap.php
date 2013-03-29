@@ -8,7 +8,7 @@
  * @copyright	Copyright (c) 2012 - 2013, OMAPS LABS
  * @link		http://cmlocator.com
  * @filesource 	http://github.com/agusprasetyo811/omap-ci
- * @since		Version 4.2
+ * @since		Version 4.3
  *
  */
 
@@ -36,6 +36,8 @@ class Omap {
 	var $set_index = "default";
 	var $set_view = "default";
 	var $set_template = "default";
+	var $set_head_data = "default";
+	var $compress_html = HTML_COMPRESSOR;
 
 	public function __construct() {
 		$this->tpl =& get_instance();
@@ -150,6 +152,19 @@ class Omap {
 
 	public function get_view() {
 		return $this->set_view;
+	}
+
+	/**
+	 * Head to set head data in template
+	 * @param  $head_data
+	 *
+	 */
+	public function head($head_data) {
+		$this->set_head_data = $head_data;
+	}
+
+	public function get_head() {
+		return $this->set_head_data;
 	}
 
 	/**
@@ -278,7 +293,14 @@ class Omap {
 		$file_data['DEVELOPER'] = DEVELOPER;
 		ob_end_clean();
 
-		if ($new_type == 'pages') {	
+		# Define head if set or not
+		if ($this->get_head() != "" || $this->get_head() != "default") {
+			$file_data['HEAD'] = $this->get_head();
+		} else {
+			$file_data['HEAD'] = '';
+		}
+
+		if ($new_type == 'pages') {
 			# Manage module process
 			if ($new_modules != "") {
 				$count_modules = explode(',',$new_modules);
@@ -303,23 +325,30 @@ class Omap {
 				$file_data[strtoupper(trim($new_data))] = $new_data;
 				ob_end_clean();
 			}
-			
+
 			# Manage view process
 			ob_start();
 			$this->tpl->load->view($new_view."/".$body, $data, false);
-			// Compress HTML
-			$search = array(
+
+			# Comperss HTML if true
+			if ($this->compress_html == true) {
+				// Compress HTML
+				$search = array(
 			        '/\>[^\S ]+/s', //strip whitespaces after tags, except space
 			        '/[^\S ]+\</s', //strip whitespaces before tags, except space
 			        '/(\s)+/s'  //shorten multiple whitespace sequences
-			        );
-			$replace = array(
+				);
+				$replace = array(
 			        '>',
 			        '<',
 			        '\\1'
 			        );
-			$compress = preg_replace($search, $replace, ob_get_contents());
-			$file_data[strtoupper($new_label)] = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$compress);
+			        $body_data = preg_replace($search, $replace, ob_get_contents());
+			} else {
+				$body_data = ob_get_contents();
+			}
+
+			$file_data[strtoupper($new_label)] = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$body_data);
 			ob_end_clean();
 
 			# Buffer to template
@@ -327,21 +356,27 @@ class Omap {
 			$set_index_path = 'template/'.$new_template.'/'.$new_index.'.php';
 			require $set_index_path;
 			$temp_field = ob_get_contents();
-			
-			// Compress HTML
-			$search = array(
+
+			# Comperss Temp HTML if true
+			if ($this->compress_html == true) {
+				// Compress HTML
+				$search = array(
 			        '/\>[^\S ]+/s', //strip whitespaces after tags, except space
 			        '/[^\S ]+\</s', //strip whitespaces before tags, except space
 			        '/(\s)+/s'  //shorten multiple whitespace sequences
-			        );
-			$replace = array(
+				);
+				$replace = array(
 			        '>',
 			        '<',
 			        '\\1'
 			        );
-			$compress = preg_replace($search, $replace, $temp_field);			
+			        $temp_body_data = preg_replace($search, $replace, $temp_field);
+			} else {
+				$temp_body_data = ob_get_contents();
+			}
 			ob_end_clean();
-			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$compress);
+			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data);
+
 		} else {
 			# Get modules_data
 			// $modules_data = str_replace('______',' ', @$_GET['data']);
@@ -361,22 +396,26 @@ class Omap {
 			$set_index_path = 'application/views/modules/'.$body.'.php';
 			require $set_index_path;
 			$temp_field = ob_get_contents();
-			
-			// Compress HTML
-			$search = array(
+
+			# Comperss Temp Module HTML if true
+			if ($this->compress_html == true) {
+				// Compress HTML
+				$search = array(
 			        '/\>[^\S ]+/s', //strip whitespaces after tags, except space
 			        '/[^\S ]+\</s', //strip whitespaces before tags, except space
-			        '/(\s)+/s'  // shorten multiple whitespace sequences
-			        );
-			$replace = array(
+			        '/(\s)+/s'  //shorten multiple whitespace sequences
+				);
+				$replace = array(
 			        '>',
 			        '<',
 			        '\\1'
 			        );
-			$compress = preg_replace($search, $replace, $temp_field);
-			
+			        $temp_body_data = preg_replace($search, $replace, $temp_field);
+			} else {
+				$temp_body_data = ob_get_contents();
+			}
 			ob_end_clean();
-			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$compress);
+			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data);
 		}
 	}
 }

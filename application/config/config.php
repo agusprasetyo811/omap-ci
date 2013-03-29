@@ -36,7 +36,7 @@ $config['index_page'] = 'index.php';
 | Name of Theme Websites.
 |
 */
-$config['theme'] = 'omap-ci';
+$config['theme'] = 'front';
 
 /*
 |--------------------------------------------------------------------------
@@ -46,7 +46,7 @@ $config['theme'] = 'omap-ci';
 | Author of Omaps-CI Developers
 |
 */
-$config['author'] = 'OMAPS LABS - Agus Prasetyo(agusprasetyo811@gmail.com)';
+$config['author'] = 'OMAPS LABS - Agus Prasetyo (agusprasetyo811@gmail.com)';
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +66,17 @@ $config['since'] = '2012-'.date('Y');
 | Omaps-CI version
 |
 */
-$config['version'] = 'Omaps-ci 4.2';
+$config['version'] = 'Omaps-ci 4.0';
+
+/*
+|--------------------------------------------------------------------------
+| HTML COMPRESSOR
+|--------------------------------------------------------------------------
+|
+| Omaps-CI HTML Compressor
+|
+*/
+$config['html_comperssor'] = TRUE;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,9 +88,8 @@ $config['version'] = 'Omaps-ci 4.2';
 */
 $config['developer'] = 'http://github.com/agusprasetyo811/omap-ci/';
 
-
 /*
- |--------------------------------------------------------------------------
+|--------------------------------------------------------------------------
 | URI PROTOCOL
 |--------------------------------------------------------------------------
 |
