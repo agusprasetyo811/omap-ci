@@ -292,12 +292,12 @@ class Omap {
 		$file_data['SINCE'] = SINCE;
 		$file_data['DEVELOPER'] = DEVELOPER;
 		ob_end_clean();
-
+		
 		# Define head if set or not
-		if ($this->get_head() != "" || $this->get_head() != "default") {
+		if ($this->get_head() != "default") {
 			$file_data['HEAD'] = $this->get_head();
 		} else {
-			$file_data['HEAD'] = '';
+			$file_data['HEAD'] = null;
 		}
 
 		if ($new_type == 'pages') {
