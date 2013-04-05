@@ -292,7 +292,7 @@ class Omap {
 		$file_data['SINCE'] = SINCE;
 		$file_data['DEVELOPER'] = DEVELOPER;
 		ob_end_clean();
-		
+
 		# Define head if set or not
 		if ($this->get_head() != "default") {
 			$file_data['HEAD'] = $this->get_head();
@@ -307,7 +307,12 @@ class Omap {
 				foreach ($count_modules as $modules) {
 					# Prepare $modules_data to be default
 					if ($this->modules_data == null ) {
-						$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)));
+						$data = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)));
+						if ($data) {
+							$file_data[strtoupper(trim($modules))] = $data;
+						} else {
+							echo "<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <u>". $modules ."</u> Not Founds.</div>";
+						}
 					} else {
 						# is $modules_data is_array then exec http_build_query
 						if(is_array($this->modules_data)) {
@@ -354,30 +359,35 @@ class Omap {
 			# Buffer to template
 			ob_start();
 			$set_index_path = 'template/'.$new_template.'/'.$new_index.'.php';
-			require $set_index_path;
-			$temp_field = ob_get_contents();
+				
+			if (!file_exists($set_index_path)) {
+				echo "<h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>THEME NULL : </b> Theme ". $new_template ." Not Found";	
+			} else {
+				require $set_index_path;
+				$temp_field = ob_get_contents();
 
-			# Comperss Temp HTML if true
-			if ($this->compress_html == true) {
-				// Compress HTML
-				$search = array(
+				# Comperss Temp HTML if true
+				if ($this->compress_html == true) {
+					// Compress HTML
+					$search = array(
 			        '/\>[^\S ]+/s', //strip whitespaces after tags, except space
 			        '/[^\S ]+\</s', //strip whitespaces before tags, except space
 			        '/(\s)+/s'  //shorten multiple whitespace sequences
-				);
-				$replace = array(
+					);
+					$replace = array(
 			        '>',
 			        '<',
 			        '\\1'
 			        );
 			        $temp_body_data = preg_replace($search, $replace, $temp_field);
-			} else {
-				$temp_body_data = ob_get_contents();
+				} else {
+					$temp_body_data = ob_get_contents();
+				}
+				ob_end_clean();
+				echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data);
 			}
-			ob_end_clean();
-			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data);
 
-		} else {
+		} else if ($new_type == 'modules') {
 			# Get modules_data
 			// $modules_data = str_replace('______',' ', @$_GET['data']);
 			$modules_data = @$_GET['modules_data'];
@@ -394,28 +404,36 @@ class Omap {
 			# Buffer to templates
 			ob_start();
 			$set_index_path = 'application/views/modules/'.$body.'.php';
-			require $set_index_path;
-			$temp_field = ob_get_contents();
 
-			# Comperss Temp Module HTML if true
-			if ($this->compress_html == true) {
-				// Compress HTML
-				$search = array(
+			# Set error Handling
+			if (file_exists($set_index_path)) {
+				require $set_index_path;
+				$temp_field = ob_get_contents();
+
+				# Comperss Temp Module HTML if true
+				if ($this->compress_html == true) {
+					// Compress HTML
+					$search = array(
 			        '/\>[^\S ]+/s', //strip whitespaces after tags, except space
 			        '/[^\S ]+\</s', //strip whitespaces before tags, except space
 			        '/(\s)+/s'  //shorten multiple whitespace sequences
-				);
-				$replace = array(
+					);
+					$replace = array(
 			        '>',
 			        '<',
 			        '\\1'
 			        );
 			        $temp_body_data = preg_replace($search, $replace, $temp_field);
+				} else {
+					$temp_body_data = ob_get_contents();
+				}
+				ob_end_clean();
+				echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data);
 			} else {
-				$temp_body_data = ob_get_contents();
+				echo "<h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES ERROR : </b> File <u>".$body .".php</u> Not Exist";
 			}
-			ob_end_clean();
-			echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data);
+		} else {
+			echo "<h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>TYPE ERROR : </b> Modules or Pages Type Undefined";
 		}
 	}
 }
