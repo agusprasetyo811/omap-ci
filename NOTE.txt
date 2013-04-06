@@ -1,0 +1,83 @@
+OMAP CI PROJECT
+
+# Default Implementation in controllers
+>> PAGES
+	$this->omap->type('pages');
+	$this->omap->label('dasbor');
+	$this->omap->title('any title');
+	$this->omap->display('any pages');
+
+>> MODULES
+	$this->omap->type('modules');
+	$this->omap->title('any title');
+	$this->omap->display('any module');
+>> Jika type ($this->omap->type('any_type)) kosong maka akan secara default menjadi pages
+
+
+
+# LABEL REFERENCE
+>> Penulisanya
+html didalam tag {....} 
+php langsung ditulis ex:JS
+
+JS = mengembalikan link javascrit berdasarkan template
+STYLE = mengembalikan link style berdasarkan template
+TEMPLATE = mengembalikan link template
+SITE = mengembalikan alamat website 
+SITE_INDEX = mengembalikan alamat website beserta index.php 
+
+
+# HEAD AUTO BUILDER
+>> js() --> build_script();
+>> style() --> build_style();
+>> all js() & style() --> build_head();
+
+
+# MODULES AUTO BUILDER
+>> mod() --> mendefinisikan modules 
+>> build_modules --> generate modules dari modules definition mod()
+
+>> Implementasi modules dalam pages
+ex: 
+$mod[] = mod('mod_login__login_register_front_end');
+$mod[] = mod('mod_categories');
+$mod[] = mod('mod_user_basket');
+$mod[] = mod('mod_product');
+$mod[] = mod('mod_user_header_menu');
+$this->omap->modules(build_modules($mod), $modules_data);
+
+atau 
+
+$this->omap->modules('mod_login__login_register_front_end,
+					  mod_categories,
+					  mod_user_basket,
+					  mod_product', $modules_data);
+
+>> SENDING DATA FROM MODULES
+$modules_data defauld variable
+
+
+
+# AUTO READER COLUMN FROM DATABASE OR JSON DATA
+>> show_table_column($any_query); --> membaca colom table, return array
+>> show_json_column($any_json); --> membaca colom json return array
+>> show_json_column_text($json, $sparator, $sort_desc); --> membaca colom json dan dikonversi ke text dan di difinsikan spatator/pemisah serta definisi sortirnya
+
+
+# PAGES TYPE
+>> Module Pages
+Biar g kerja 2x maka peraturan buat bikin module didalam pages disisipkan di pages aja,. 
+
+
+# MODULES TYPE
+>> Kapan kita bikin module?? Yaitu ketika module itu bersifat global. misal bikin module category(Module category dipakai disemua pages) sesuai kebutuhan
+
+
+
+# ERROR HANDLING
+>> MODULES NULL = modules tidak terdefinisi atau tidak ada
+>> MODULES ERROR = kesalahan penulisan modules saat membuat modules
+>> THEMES NULL = pengaturan theme salah dan menyebabkan tidak terdefinisi
+>> TYPE ERROR = kesalahan penulisan didalam type modules/pages diluar ex: $this->omap->type('pages__');
+
+
