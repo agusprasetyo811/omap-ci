@@ -307,17 +307,12 @@ class Omap {
 				foreach ($count_modules as $modules) {
 					# Prepare $modules_data to be default
 					if ($this->modules_data == null ) {
-						$data = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)));
-						if ($data) {
-							$file_data[strtoupper(trim($modules))] = $data;
-						} else {
-							echo "<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <u>". $modules ."</u> Not Founds.</div>";
-						}
+						$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules))) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <u>'. $modules .'</u> Not Founds.</div>');
 					} else {
 						# is $modules_data is_array then exec http_build_query
 						if(is_array($this->modules_data)) {
 							$build_query_modules_data = http_build_query($this->modules_data,'',';');
-							$file_data[strtoupper(trim($modules))] = file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?modules_data='.$build_query_modules_data);
+							$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?modules_data='.$build_query_modules_data) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <u>'. $modules .'</u> Not Founds.</div>');
 						}
 					}
 				}
@@ -359,9 +354,9 @@ class Omap {
 			# Buffer to template
 			ob_start();
 			$set_index_path = 'template/'.$new_template.'/'.$new_index.'.php';
-				
+
 			if (!file_exists($set_index_path)) {
-				echo "<h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>THEME NULL : </b> Theme ". $new_template ." Not Found";	
+				echo "<h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>THEME NULL : </b> Theme ". $new_template ." Not Found";
 			} else {
 				require $set_index_path;
 				$temp_field = ob_get_contents();
