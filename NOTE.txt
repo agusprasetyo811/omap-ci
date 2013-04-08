@@ -1,5 +1,13 @@
 OMAP CI PROJECT
 
+# CONFIGURATION
+>> Omap-ci configuration 
+Buka config.php Folder(application/config)
+$config['theme'] = 'front';
+
+
+
+
 # Default Implementation in controllers
 >> PAGES
 	$this->omap->type('pages');
