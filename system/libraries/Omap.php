@@ -288,8 +288,9 @@ class Omap {
 		$file_data['SITE_INDEX'] = base_url().'index.php/';
 		$file_data['SITE_TEMPLATE'] = SITE_TEMPLATE;
 		$file_data['SITE'] = base_url();
-		$file_data['THEME'] = $new_template;
+		$file_data['THEME'] = THEME;
 		$file_data['ADMIN_THEME'] = ADMIN_THEME;
+		$file_data['FLUID_THEME'] = $new_template;
 		$file_data['AUTHOR'] = AUTHOR;
 		$file_data['VERSION'] = VERSION;
 		$file_data['SINCE'] = SINCE;
@@ -297,7 +298,7 @@ class Omap {
 		ob_end_clean();
 		
 		# Define Site Theme
-		define('SITE_THEME', $new_template);
+		define('FLUID_THEME', $new_template);
 
 		# Define head if set or not
 		if ($this->get_head() != "default") {

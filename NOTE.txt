@@ -3,7 +3,7 @@ OMAP CI PROJECT
 # VERSION 4.5
 >> Changelog:
 - Penambahan config admin_theme setting 
-- Penambahan Label ADMIN_THEME, THEME & SITE_TEMPLATE
+- Penambahan Label ADMIN_THEME, THEME, FLUID_THEME & SITE_TEMPLATE
 
 # VERSION 4.4
 >> Changelog:
@@ -46,6 +46,7 @@ SITE_INDEX = mengembalikan alamat website beserta index.php
 SITE_TEMPLATE = mengembalikan alamat website dan forder template
 THEME = mengembalikan theme name 
 ADMIN_THEME = mengembalikan admin_theme name
+FLUID_THEME = mengembalikan theme name sesuai dengan posisi apakah dia adalah admin atau front (mengkuti)
 
 >> Penulisanya
 html didalam tag {....} 
