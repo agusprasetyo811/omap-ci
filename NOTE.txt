@@ -4,6 +4,7 @@ OMAP CI PROJECT
 >> Changelog:
 - Penambahan config admin_theme setting 
 - Penambahan Label ADMIN_THEME, THEME, FLUID_THEME & SITE_TEMPLATE
+- Add API Access
 
 # VERSION 4.4
 >> Changelog:
@@ -125,6 +126,14 @@ PAGES Controller Product have a product_details
 >> MODULES ERROR = kesalahan penulisan modules saat membuat modules
 >> THEMES NULL = pengaturan theme salah dan menyebabkan tidak terdefinisi
 >> TYPE ERROR = kesalahan penulisan didalam type modules/pages diluar ex: $this->omap->type('pages__');
+
+# OMAPS-CI API
+>> Akses dan Bikin Simple API
+API Dibuat didalam modules
+>> Method Reference
+$this->omap->build_json_data($array_data); --> Formating data ke array dan langsung ditamplkan ke layar
+$this->omap->push($data); --> Mengirim data keluar
+$this->omap->pull('API_CONTROLLER' 'API_METHOD'); --> Menarik data yang telah di push dengan parameter API_CONTROLLERS dan METHOD_API
 
 
 

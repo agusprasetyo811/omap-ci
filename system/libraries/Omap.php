@@ -47,9 +47,9 @@ class Omap {
 	 * Type to set is the modules or pages
 	 * @param  $type
 	 */
-	public function type($type, $body = null, $data = null) {
+	public function type($type, $body = NULL, $data = NULL) {
 		if ($type == 'modules') {
-			if ($body == null) {
+			if ($body == NULL) {
 				$this->type = $type;
 			} else {
 				$this->tpl->load->view($type.'/'.$body, $data);
@@ -106,7 +106,7 @@ class Omap {
 	 * @param  $modules
 	 *
 	 */
-	public function modules($modules, $modules_data = null) {
+	public function modules($modules, $modules_data = NULL) {
 		$this->modules = $modules;
 		$this->modules_data = $modules_data;
 	}
@@ -168,6 +168,44 @@ class Omap {
 	}
 
 	/**
+	 * build_json_data to build data with json format
+	 * @param  $array_data
+	 *
+	 */
+	public function build_json_data($array_data) {
+		if (is_array($array_data)) {
+			echo json_encode($array_data);
+		} else {
+			echo "ERROR";
+		}
+	}
+
+	/**
+	 * Push to sending or push data
+	 * @param  $data
+	 *
+	 */
+	public function push($data) {
+		echo $data;
+	}
+
+	/**
+	 * Pull to get push data 
+	 * @param  $api_controllers
+	 * @param  $api_method
+	 * @param  $param
+	 *
+	 */
+	public function pull($api_controllers, $api_method, $param = NULL) {
+		if ($param == NULL) {
+			return file_get_contents(base_url().'index.php/'.$api_controllers.'/'.$api_method);
+		} else {
+			return file_get_contents(base_url().'index.php/'.$api_controllers.'/'.$api_method.'/'.$param);
+		}
+		
+	}
+
+	/**
 	 * Display is the end to showing the display setting of omaps-ci
 	 * @param  $body
 	 * @param  $data
@@ -178,19 +216,19 @@ class Omap {
 	 * @param  $modules
 	 *
 	 */
-	public function display($body, $data = null, $type = null, $label = null, $title = null, $set_template = THEME, $set_index = null, $modules = null) {
+	public function display($body, $data = NULL, $type = NULL, $label = NULL, $title = NULL, $set_template = THEME, $set_index = NULL, $modules = NULL) {
 
-		$new_type = null;
-		$new_title = null;
-		$new_label = null;
-		$new_template = null;
-		$new_modules = null;
-		$new_data = null;
+		$new_type = NULL;
+		$new_title = NULL;
+		$new_label = NULL;
+		$new_template = NULL;
+		$new_modules = NULL;
+		$new_data = NULL;
 		$new_index = "index";
-		$new_view = null;
+		$new_view = NULL;
 
 		# Define type is module or pages
-		if ($type == null) {
+		if ($type == NULL) {
 			if ($this->get_type() == "") {
 				$new_type = "pages";
 			} else if ($this->get_type() == "default") {
@@ -210,7 +248,7 @@ class Omap {
 		}
 
 		# Define title of websites
-		if ($title == null) {
+		if ($title == NULL) {
 			if ($this->get_title() == "") {
 				$new_title = "omap-ci";
 			} else if ($this->get_title() == "default") {
@@ -223,7 +261,7 @@ class Omap {
 		}
 
 		# Define label to template
-		if ($label == null) {
+		if ($label == NULL) {
 			if ($this->get_label() == "") {
 				$new_label = "omap-ci";
 			} else if ($this->get_label() == "default") {
@@ -249,7 +287,7 @@ class Omap {
 		}
 
 		# Define index of templates
-		if ($set_index == null) {
+		if ($set_index == NULL) {
 			if ($this->get_index() == "") {
 				$new_index = "index";
 			} else if ($this->get_index() == "default") {
@@ -268,7 +306,7 @@ class Omap {
 		}
 
 		# Define modules that added in any pages
-		if ($modules == null) {
+		if ($modules == NULL) {
 			if ($this->get_modules() == "") {
 				$new_modules = "";
 			} else if ($this->get_modules() == "default") {
@@ -296,7 +334,7 @@ class Omap {
 		$file_data['SINCE'] = SINCE;
 		$file_data['DEVELOPER'] = DEVELOPER;
 		ob_end_clean();
-		
+
 		# Define Site Theme
 		define('FLUID_THEME', $new_template);
 
@@ -304,7 +342,7 @@ class Omap {
 		if ($this->get_head() != "default") {
 			$file_data['HEAD'] = $this->get_head();
 		} else {
-			$file_data['HEAD'] = null;
+			$file_data['HEAD'] = NULL;
 		}
 
 		if ($new_type == 'pages') {
@@ -313,7 +351,7 @@ class Omap {
 				$count_modules = explode(',',$new_modules);
 				foreach ($count_modules as $modules) {
 					# Prepare $modules_data to be default
-					if ($this->modules_data == null ) {
+					if ($this->modules_data == NULL ) {
 						$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules))) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <b>'. $modules .'</b> Not Founds.</div>');
 					} else {
 						# is $modules_data is_array then exec http_build_query
@@ -335,10 +373,10 @@ class Omap {
 
 			# Manage view process
 			ob_start();
-			$this->tpl->load->view($new_view."/".$body, $data, false);
+			$this->tpl->load->view($new_view."/".$body, $data, FALSE);
 
-			# Comperss HTML if true
-			if ($this->compress_html == true) {
+			# Comperss HTML if TRUE
+			if ($this->compress_html == TRUE) {
 				// Compress HTML
 				$search = array(
 			        '/\>[^\S ]+/s', //strip whitespaces after tags, except space
@@ -368,8 +406,8 @@ class Omap {
 				require $set_index_path;
 				$temp_field = ob_get_contents();
 
-				# Comperss Temp HTML if true
-				if ($this->compress_html == true) {
+				# Comperss Temp HTML if TRUE
+				if ($this->compress_html == TRUE) {
 					// Compress HTML
 					$search = array(
 			        '/\>[^\S ]+/s', //strip whitespaces after tags, except space
@@ -412,8 +450,8 @@ class Omap {
 				require $set_index_path;
 				$temp_field = ob_get_contents();
 
-				# Comperss Temp Module HTML if true
-				if ($this->compress_html == true) {
+				# Comperss Temp Module HTML if TRUE
+				if ($this->compress_html == TRUE) {
 					// Compress HTML
 					$search = array(
 			        '/\>[^\S ]+/s', //strip whitespaces after tags, except space
