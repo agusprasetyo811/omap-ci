@@ -1,9 +1,25 @@
 OMAP CI PROJECT
 
+# VERSION 4.5
+>> Changelog:
+- Penambahan config admin_theme setting 
+- Penambahan Label ADMIN_THEME, THEME & SITE_TEMPLATE
+
+# VERSION 4.4
+>> Changelog:
+- Penambahan head management
+- Penambahan Error Handling
+- Penambahan struktur module baru
+- Auto reader column from DataBase
+
+
+
+
 # CONFIGURATION
 >> Omap-ci configuration 
 Buka config.php Folder(application/config)
 $config['theme'] = 'front'; --> Buat Pilih Theme
+$config['admin_theme'] = 'front'; --> Buat Setting Admin_theme jika ada. Default Kosong
 $config['html_comperssor'] = FALSE; --> Buat compress HTML (if TRUE) FALSE html tidak dicompresss
 
 
@@ -27,6 +43,9 @@ STYLE = mengembalikan link style berdasarkan template
 TEMPLATE = mengembalikan link template
 SITE = mengembalikan alamat website 
 SITE_INDEX = mengembalikan alamat website beserta index.php 
+SITE_TEMPLATE = mengembalikan alamat website dan forder template
+THEME = mengembalikan theme name 
+ADMIN_THEME = mengembalikan admin_theme name
 
 >> Penulisanya
 html didalam tag {....} 

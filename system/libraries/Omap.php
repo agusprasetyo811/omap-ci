@@ -286,12 +286,18 @@ class Omap {
 		$file_data['JS'] = base_url().'template/'.$new_template.'/js/';
 		$file_data['IMAGES'] = base_url().'template/'.$new_template.'/images/';
 		$file_data['SITE_INDEX'] = base_url().'index.php/';
+		$file_data['SITE_TEMPLATE'] = SITE_TEMPLATE;
 		$file_data['SITE'] = base_url();
+		$file_data['THEME'] = $new_template;
+		$file_data['ADMIN_THEME'] = ADMIN_THEME;
 		$file_data['AUTHOR'] = AUTHOR;
 		$file_data['VERSION'] = VERSION;
 		$file_data['SINCE'] = SINCE;
 		$file_data['DEVELOPER'] = DEVELOPER;
 		ob_end_clean();
+		
+		# Define Site Theme
+		define('SITE_THEME', $new_template);
 
 		# Define head if set or not
 		if ($this->get_head() != "default") {
@@ -307,12 +313,12 @@ class Omap {
 				foreach ($count_modules as $modules) {
 					# Prepare $modules_data to be default
 					if ($this->modules_data == null ) {
-						$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules))) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <u>'. $modules .'</u> Not Founds.</div>');
+						$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules))) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <b>'. $modules .'</b> Not Founds.</div>');
 					} else {
 						# is $modules_data is_array then exec http_build_query
 						if(is_array($this->modules_data)) {
 							$build_query_modules_data = http_build_query($this->modules_data,'',';');
-							$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?modules_data='.$build_query_modules_data) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <u>'. $modules .'</u> Not Founds.</div>');
+							$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?modules_data='.$build_query_modules_data) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <b>'. $modules .'</b> Not Founds.</div>');
 						}
 					}
 				}
@@ -425,7 +431,7 @@ class Omap {
 				ob_end_clean();
 				echo @$OUTPUT = preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data);
 			} else {
-				echo "<h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES ERROR : </b> File <u>".$body .".php</u> Not Exist";
+				echo "<h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES ERROR : </b> File <b>".$body .".php</b> Not Exist";
 			}
 		} else {
 			echo "<h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>TYPE ERROR : </b> Modules or Pages Type Undefined";

@@ -80,14 +80,21 @@ class CI_Config {
 			$this->set_item('base_url', $base_url);
 		}
 
-		// Define Theme
+		// Define Theme (omap-ci)
 		if ($this->config['theme'] == '') {
 			define('THEME', 'default');
 		} else {
 			define('THEME', $this->config['theme']);
 		}
 
-		// Define HTML comperssor
+		// Define Admin Theme (omap-ci)
+		if ($this->config['theme'] == '') {
+			define('ADMIN_THEME', '');
+		} else {
+			define('ADMIN_THEME', $this->config['admin_theme']);
+		}
+
+		// Define HTML comperssor (omap-ci)
 		if ($this->config['html_comperssor'] != FALSE || $this->config['html_comperssor'] != '') {
 			define('HTML_COMPRESSOR', TRUE);
 		} else {
@@ -123,6 +130,9 @@ class CI_Config {
 
 		// Define site_index  PATH (omap-ci)
 		define('SITE_INDEX', SITE.'index.php/');
+		
+		// Define site_template  PATH (omap-ci)
+		define('SITE_TEMPLATE', SITE.'template/');
 	}
 
 	// --------------------------------------------------------------------

@@ -36,7 +36,17 @@ $config['index_page'] = 'index.php';
 | Name of Theme Websites.
 |
 */
-$config['theme'] = 'front';
+$config['theme'] = 'omap-ci';
+
+/*
+|--------------------------------------------------------------------------
+| Admin Theme name if any
+|--------------------------------------------------------------------------
+|
+| Name of Admin Theme Websites.
+|
+*/
+$config['admin_theme'] = '';
 
 /*
 |--------------------------------------------------------------------------
@@ -66,7 +76,7 @@ $config['since'] = '2012-'.date('Y');
 | Omaps-CI version
 |
 */
-$config['version'] = 'Omaps-ci 4.0';
+$config['version'] = 'Omaps-ci 4.5';
 
 /*
 |--------------------------------------------------------------------------
@@ -76,7 +86,7 @@ $config['version'] = 'Omaps-ci 4.0';
 | Omaps-CI HTML Compressor
 |
 */
-$config['html_comperssor'] = TRUE;
+$config['html_comperssor'] = FALSE;
 
 /*
 |--------------------------------------------------------------------------
