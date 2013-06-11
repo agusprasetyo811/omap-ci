@@ -27,17 +27,48 @@ function reading_file($file_txt){
 	return $file;
 }
 
+// Fungsi Untuk menghapus File
+function delete_file($file) {
+	return unlink($file);
+}
+
+// Fungsi Untuk menghapus File
+function delete_dir($dir) {
+	if (!file_exists($dir)) return true;
+	if (!is_dir($dir)) return unlink($dir);
+	foreach (scandir($dir) as $item) {
+		if ($item == '.' || $item == '..') continue;
+		if (!delete_dir($dir.DIRECTORY_SEPARATOR.$item)) return false;
+	}
+	return rmdir($dir);
+}
+
+// Fungsi Untuk membaca direktori
+function read_dir($system_dir) {
+	$file_type = 'file';
+	if (is_dir($system_dir)) {
+		if ($dir = opendir($system_dir)) {
+			while (($file = readdir($dir)) !== false) {
+				if ($file != "." && $file != "..") {
+					$dir_name[]['file'] = $file;
+				}
+			}
+			$data['data'] = @$dir_name;
+			return json_encode($data);
+			closedir($dir);
+		}
+	}
+}
+
 // Fungsi untuk mendapatkan content dengan curl
 function get_content_curl($url) {
-	session_start();
 	$ch = curl_init($url);
-	curl_setopt($ch, CURLOPT_COOKIESESSION, true);
-	curl_setopt($ch, CURLOPT_COOKIEFILE, $strCookie);
-	curl_setopt($ch, CURLOPT_COOKIEJAR, $strCookie);
-	curl_setopt($ch, CURLOPT_COOKIE, session_name()."=".session_id().";");
-	curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-	curl_setopt($ch, CURLOPT_AUTOREFERER, true);
-	$data = curl_exec($ch);
+	curl_setopt($ch, CURLOPT_COOKIEJAR, "cookies.txt");
+	curl_setopt($ch, CURLOPT_COOKIEFILE, "cookies.txt");
+	curl_setopt($ch, CURLOPT_URL, $url);
+	curl_setopt($ch, CURLOPT_REFERER, "");
+	curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+	$result = curl_exec($ch);
 	curl_close($ch);
-	return $data;
+	return $result;
 }

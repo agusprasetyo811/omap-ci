@@ -14,13 +14,19 @@ function do_upload($files,$path) {
 							'image/x-png',
 							'image/gif'
 							);
+
+							// Membuat direktory folder dan menggenerate file name location
+							$oldmask = umask(0);
+							@mkdir($path, 0777);
+							umask($oldmask);
+
 							// Melakukan pengkondisian
 							if ($files['error'] > 0) {
 								return -1;
 							} else {
 								@$pic_name = $files['name'];
 								@$pic_type = $files['type'];
-								@$pic_size = $files['size'] . " kb";
+								@$pic_size = $files['size']. " kb";
 								@$pic_temp_name = $files['tmp_name'];
 							}
 
@@ -33,16 +39,16 @@ function do_upload($files,$path) {
 								exit;
 							}
 
-							// Membuat direktory folder dan menggenerate file name location
-							$oldmask = umask(0);
-							@mkdir($path, 0777);
-							umask($oldmask);
+							// Menggenerate file name location
 							$picture = $path.'/'.$pic_name;
-							copy($pic_temp_name, $picture);
+							@img_resize($pic_temp_name , 800 , $path , $pic_name);
+							@img_resize($pic_temp_name , 500 , $path , 'med_'.$pic_name);
+							@img_resize($pic_temp_name , 200 , $path , 'small_'.$pic_name);
+							/* copy($pic_temp_name, $picture); */
 							unlink($pic_temp_name);
-
+							
 							// Mengembalikan nilai picture yaitu berupa nama gambar yang diupload
-							return $pic_name;
+							return $pic_name;;
 }
 
 function multi_do_upload($files,$path) {
@@ -54,12 +60,12 @@ function multi_do_upload($files,$path) {
 							'image/x-png',
 							'image/gif'
 							);
-								
+
 							// Membuat direktory folder
 							$oldmask = umask(0);
 							@mkdir($path, 0777);
 							umask($oldmask);
-								
+
 							for($i = 0; $i<count($files['name']); $i++) {
 								// Melakukan pengkondisian
 								if ($files['error'][$i] > 0) {
@@ -82,9 +88,65 @@ function multi_do_upload($files,$path) {
 
 								// Menggenerate file name location
 								$picture = $path.'/'.$pic_name;
-								copy($pic_temp_name, $picture);
+								@img_resize($pic_temp_name , 800 , $path , $pic_name);
+								@img_resize($pic_temp_name , 500 , $path , 'med_'.$pic_name);
+								@img_resize($pic_temp_name , 200 , $path , 'small_'.$pic_name);
+								/* copy($pic_temp_name, $picture); */
 								unlink($pic_temp_name);
 								$pic_names[] = $pic_name;
 							}
 							return $pic_names;
+}
+
+/**
+ * Make thumbs from JPEG, PNG, GIF source file
+ *
+ * $tmpname = $_FILES['source']['tmp_name'];
+ * $size - max width size
+ * $save_dir - destination folder
+ * $save_name - tnumb new name
+ *
+ * Author:  LEDok - http://www.citadelavto.ru/
+ */
+
+/**
+ * Example :
+ *
+ * $tmpname  = $_FILES['pic']['tmp_name'];
+ * @img_resize( $tmpname , 600 , "../album" , "album_".$id.".jpg");
+ * @img_resize( $tmpname , 120 , "../album" , "album_".$id."_small.jpg");
+ * @img_resize( $tmpname , 60 , "../album" , "album_".$id."verysmall.jpg");
+ *
+ */
+function img_resize($tmpname, $size, $save_dir, $save_name) {
+	$save_dir .= ( substr($save_dir,-1) != "/") ? "/" : "";
+	$gis       = GetImageSize($tmpname);
+	$type       = $gis[2];
+	switch($type)
+	{
+		case "1": $imorig = imagecreatefromgif($tmpname); break;
+		case "2": $imorig = imagecreatefromjpeg($tmpname);break;
+		case "3": $imorig = imagecreatefrompng($tmpname); break;
+		default:  $imorig = imagecreatefromjpeg($tmpname);
+	}
+
+	$x = imageSX($imorig);
+	$y = imageSY($imorig);
+	if($gis[0] <= $size) {
+		$av = $x;
+		$ah = $y;
+	} else {
+		$yc = $y*1.3333333;
+		$d = $x>$yc?$x:$yc;
+		$c = $d>$size ? $size/$d : $size;
+		$av = $x*$c;
+		$ah = $y*$c;
+	}
+	$im = imagecreate($av, $ah);
+	$im = imagecreatetruecolor($av,$ah);
+	if (imagecopyresampled($im,$imorig , 0,0,0,0,$av,$ah,$x,$y))
+	if (imagejpeg($im, $save_dir.$save_name))
+	return true;
+	else
+	return false;
 }
