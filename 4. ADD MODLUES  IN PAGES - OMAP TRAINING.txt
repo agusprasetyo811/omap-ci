@@ -1,0 +1,71 @@
+ADD MODULES IN PAGES OMAP CI
+
+>> INFO 
+Implementasi bagaimana menempelkan sebuah modules kedalam pages
+
+
+>> CREATING SIMPLE PAGES WITH ADDING ANY MODULES
+	
+	$mod[] = mod('mod_product'); -> call mod_product (mod_product modules yang telah kita buat, dipanggil sesuai dengan nama file didalam application/controllers/mod_product.php)
+	$mod[] = mod('mod_category');
+	$mod[] = mod('mod_login');
+	$this->omap->modules(build_modules($mod)); -> build modules kedalam pages
+
+	$this->omap->type('pages');
+	$this->omap->label('dasbor'); -> label when adding to front template
+	$this->omap->title('any title'); -> title of pages
+	$this->omap->display('any pages'); -> views display (html views)
+	
+	ex : 	
+	* Creating Controller in application/controllers/product.php (Nama file harus sama dengan nama class) 
+	class Product extends CI_Controller {
+
+		public function __construct() {
+			parent::__construct();
+		}
+
+		public function index() {
+			$mod[] = mod('mod_product');
+			$mod[] = mod('mod_category');
+			$mod[] = mod('mod_login');
+			$this->omap->modules(build_modules($mod));
+		
+			$this->omap->type('pages');
+			$this->omap->label('dasbor');
+			$this->omap->title('Daftar Produk');
+			$this->omap->display('produk_list');
+		}
+	}
+	
+	* In forder template/front/index.php ( Tambahkan modules yang telah kita inculde di controllers lihat $mod[] = mod('mod_product') dan seterusnya ) 
+	<!DOCTYPE html>
+	<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{TITLE}</title>
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+	<link href="{SITE}bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="{STYLE}style.css" rel="stylesheet" type="text/css" />
+	<!-- <link href="{SITE}bootstrap/css/bootstrap-responsive.css" rel="stylesheet"> -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.1/jquery.min.js"></script>
+	</head>
+	<body>
+		{DASBOR} {MOD_PRODUCT} {MOD_CATEGORY} {MOD_LOGIN}
+	</body>
+	</html>
+	
+	* Call & testing pages in browser 
+	http://YOUR_SITE/index.php/product
+	
+	-> YOUR_SITE = misal http://localhost/xxx
+	-> product = nama class dari controller di panggil lagi
+
+	* Note : CSS Javascript biasanya ditempatkan disini. pelajari "LABEL REFERENCE",. 
+	
+	
+	
+
+==========================
+Agus Prasetyo
+agusprasetyo811@gmail.com
+www.cmlocator.com

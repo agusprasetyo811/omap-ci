@@ -1,0 +1,28 @@
+LABEL REFERENCE IN OMAP CI
+
+>> INFO
+Label ini di gunakan untuk mempermudah penulisan path atau info seperti images, javascript, style, title dll. 
+Dengan Label ini kita tidak perlu menulis kembali path style atau info ketika kita mau memanggil css atau yang lain
+
+	*ex : in html => <link href="{STYLE}style.css" rel="stylesheet" type="text/css" />
+		  in php => <?php echo STYLE ?>
+		  
+		  Note : Lihat implementasi di template/template_name/index.php ketika inculde css, js dll
+
+
+>> LABEL REFERENCE
+JS = mengembalikan link javascrit berdasarkan template
+STYLE = mengembalikan link style berdasarkan template
+TEMPLATE = mengembalikan link template
+SITE = mengembalikan alamat website 
+SITE_INDEX = mengembalikan alamat website beserta index.php 
+SITE_TEMPLATE = mengembalikan alamat website dan forder template
+THEME = mengembalikan theme name 
+ADMIN_THEME = mengembalikan admin_theme name
+FLUID_THEME = mengembalikan theme name sesuai dengan posisi apakah dia adalah admin atau front (mengkuti)
+
+
+==========================
+Agus Prasetyo
+agusprasetyo811@gmail.com
+www.cmlocator.com

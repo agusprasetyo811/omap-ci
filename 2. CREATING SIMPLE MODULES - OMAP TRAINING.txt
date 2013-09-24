@@ -1,0 +1,73 @@
+CREAING SIMPLE MODULES WITH OMAP CI
+
+>> INFO 
+Modules adalah tamplilan yang berdiri sendiri dan bisa di inculde atau ditempelkan didalam pages.
+
+>> CREATING SIMPLE MODULES	
+	$this->omap->type('modules');
+	$this->omap->title('any title'); -> title of modules
+	$this->omap->display('any modules'); -> views display (html views)
+	
+	ex : 	
+	* Creating Controller in application/controllers/mod_product.php (Nama file harus sama dengan nama class) 
+	class Mod_product extends CI_Controller {
+
+		public function __construct() {
+			parent::__construct();
+		}
+
+		public function index() {
+			$this->omap->type('modules');
+			$this->omap->title('Daftar produk yang berelasi');
+			$this->omap->display('mod_produk_relation');
+		}
+	}
+	
+	* Creating viewes in application/views/modules/mod_produk_list.php (lihat $this->omap->display(mod_produk_list) karena type modules maka di tempatkan di folder views/modules)
+	<h1>DAFTAR PRODUK</h1>
+	<table class="table table-striped table-hover">
+	<thead>
+	  <tr>
+	    <th><div>No</div></th>
+	    <th><div>#</div></th>
+	    <th><div>Images</div></th>
+	    <th><div>ID</div></th>
+	    <th><div>Nama</div></th>
+	    <th><div>Kode</div></th>
+	    <th><div>Qty</div></th>
+	    <th><div>Baru</div></th>
+	    <th><div>Pubikasikan</div></th>
+	    <th><div>Aksi</div></th>
+	  </tr>
+	 </thead>
+	 <tbody>
+	 	<?php $i=1;foreach ($query as $row) {?>
+	 		<tr ondblclick="top.location.href='{SITE_INDEX}catalog/detail/<?=$row->id_product?>'">
+			   <td>1</td>
+			   <td><?=form_checkbox('getId[]',1)?></td>
+			   <td><img style="width: 120px;" class="img-polaroid" src="{SITE_TEMPLATE}{ADMIN_THEME}/images/catalog/img.jpg"  alt=""></td>
+			   <td>123</td> 
+			   <td>Baju Distro</td>
+			   <td>1112233444</td>
+			   <td>1</td>
+			   <td>YOI</td>
+			   <td>YOI</td>
+			   <td><a class="btn btn-warning btn-mini" href="{SITE_INDEX}catalog/edit_product/1">Edit</a> <a href="{SITE_INDEX}catalog/posting_to_fb/1" class="btn btn-info btn-mini">Share</a></td>
+			</tr>
+	 	<?php }?>
+	 </tbody>
+	</table>
+	
+	* Call & testing modules in browser 
+	http://YOUR_SITE/index.php/mod_product
+	
+	-> YOUR_SITE = misal http://localhost/xxx
+	-> mod_product = nama class dari controller di panggil lagi
+
+
+
+
+==========================
+Agus Prasetyo
+agusprasetyo811@gmail.com
+www.cmlocator.com

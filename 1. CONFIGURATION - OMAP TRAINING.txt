@@ -1,0 +1,13 @@
+CREAING SIMPLE PAGES WITH OMAP CI
+
+# CONFIGURATION--------------------------------------------------------------------------------
+>> Omap-ci configuration 
+Buka config.php Folder(application/config)
+$config['theme'] = 'front'; --> Buat Pilih Theme
+$config['admin_theme'] = 'front'; --> Buat Setting Admin_theme jika ada. Default Kosong
+$config['html_comperssor'] = FALSE; --> Buat compress HTML (if TRUE) FALSE html tidak dicompresss
+
+==========================
+Agus Prasetyo
+agusprasetyo811@gmail.com
+www.cmlocator.com
