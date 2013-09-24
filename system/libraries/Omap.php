@@ -326,6 +326,7 @@ class Omap {
 		$file_data['SITE_INDEX'] = base_url().'index.php/';
 		$file_data['SITE_TEMPLATE'] = SITE_TEMPLATE;
 		$file_data['SITE'] = base_url();
+		$file_data['ASSETS'] = ASSETS .'/';
 		$file_data['THEME'] = THEME;
 		$file_data['ADMIN_THEME'] = ADMIN_THEME;
 		$file_data['FLUID_THEME'] = $new_template;

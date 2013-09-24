@@ -133,6 +133,9 @@ class CI_Config {
 		
 		// Define site_template  PATH (omap-ci)
 		define('SITE_TEMPLATE', SITE.'template/');
+		
+		// Define Assets (omap-ci)
+		define('ASSETS', SITE.$this->config['assets'].'/');
 	}
 
 	// --------------------------------------------------------------------
