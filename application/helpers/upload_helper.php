@@ -2,100 +2,89 @@
 
 /***********************************************************************
  * By Agus Prasetyo
- * email : agusprasetyo811@gmail.com
- ***********************************************************************/
+* email : agusprasetyo811@gmail.com
+***********************************************************************/
 
 function do_upload($files,$path) {
 	// Format gambar yang diupload keserver dalam bentuk array
 	$format_gambar = array(	'image/jpg',
-							'image/jpeg',
-							'image/pjpeg',
-							'image/png',
-							'image/x-png',
-							'image/gif'
-							);
-
-							// Membuat direktory folder dan menggenerate file name location
-							$oldmask = umask(0);
-							@mkdir($path, 0777);
-							umask($oldmask);
-
-							// Melakukan pengkondisian
-							if ($files['error'] > 0) {
-								return -1;
-							} else {
-								@$pic_name = $files['name'];
-								@$pic_type = $files['type'];
-								@$pic_size = $files['size']. " kb";
-								@$pic_temp_name = $files['tmp_name'];
-							}
-
-							// Jika file tidak sesuai dengan format dan ukuranya terlalu besar
-							if(!in_array((@$pic_type),$format_gambar)) {
-								echo -2;
-								exit;
-							} else if(($pic_size =!0) && ($pic_size > 30000)) {
-								echo -3;
-								exit;
-							}
-
-							// Menggenerate file name location
-							$picture = $path.'/'.$pic_name;
-							@img_resize($pic_temp_name , 800 , $path , $pic_name);
-							@img_resize($pic_temp_name , 500 , $path , 'med_'.$pic_name);
-							@img_resize($pic_temp_name , 200 , $path , 'small_'.$pic_name);
-							/* copy($pic_temp_name, $picture); */
-							unlink($pic_temp_name);
-							
-							// Mengembalikan nilai picture yaitu berupa nama gambar yang diupload
-							return $pic_name;;
+			'image/jpeg',
+			'image/pjpeg',
+			'image/png',
+			'image/x-png',
+			'image/gif'
+	);
+	
+	@$pic_name = $files['name'];
+	@$pic_type = $files['type'];
+	@$pic_size = $files['size'] . " kb";
+	@$pic_temp_name = $files['tmp_name'];
+	
+	// Melakukan pengkondisian
+	if ($files['error'] > 0) {
+		return 'err_file';
+	} else if(!in_array((@$pic_type),$format_gambar)) {
+		return 'err_format';
+	} else if(($pic_size =!0) && ($pic_size > 300000)) {
+		return 'err_size';
+	} else {
+		// Membuat direktory folder dan menggenerate file name location
+		$oldmask = umask(0);
+		@mkdir($path, 0777);
+		@umask($oldmask);
+		$picture = $path.'/'.$pic_name;
+		@img_resize($pic_temp_name , 800 , $path , $pic_name);
+		@img_resize($pic_temp_name , 500 , $path , 'med_'.$pic_name);
+		@img_resize($pic_temp_name , 200 , $path , 'small_'.$pic_name);
+		//unlink($pic_temp_name);
+		
+		// Mengembalikan nilai picture yaitu berupa nama gambar yang diupload
+		return $pic_name;
+	}
 }
 
 function multi_do_upload($files,$path) {
 	// Format gambar yang diupload keserver dalam bentuk array
 	$format_gambar = array(	'image/jpg',
-							'image/jpeg',
-							'image/pjpeg',
-							'image/png',
-							'image/x-png',
-							'image/gif'
-							);
+			'image/jpeg',
+			'image/pjpeg',
+			'image/png',
+			'image/x-png',
+			'image/gif'
+	);
 
-							// Membuat direktory folder
-							$oldmask = umask(0);
-							@mkdir($path, 0777);
-							umask($oldmask);
+	// Membuat direktory folder
+	$oldmask = umask(0);
+	@mkdir($path, 0777);
+	@umask($oldmask);
 
-							for($i = 0; $i<count($files['name']); $i++) {
-								// Melakukan pengkondisian
-								if ($files['error'][$i] > 0) {
-									return -1;
-								} else {
-									@$pic_name = $files['name'][$i];
-									@$pic_type = $files['type'][$i];
-									@$pic_size = $files['size'][$i] . " kb";
-									@$pic_temp_name = $files['tmp_name'][$i];
-								}
+	for($i = 0; $i < count($files['name']); $i++) {
+		@$pic_name = $files['name'][$i];
+		@$pic_type = $files['type'][$i];
+		@$pic_size = $files['size'][$i] . " kb";
+		@$pic_temp_name = $files['tmp_name'][$i];
+		
+		// Melakukan pengkondisian
+		if ($files['error'][$i] > 0) {
+			return 'err_file';
+		} else if(!in_array((@$pic_type),$format_gambar)) {
+			return 'err_format';
+		} else if(($pic_size =! 0) && ($pic_size > 30000)) {
+			return 'err_size';
+		} else {				
+			// Menggenerate file name location
+			$picture = $path.'/'.$pic_name;
+			@img_resize($pic_temp_name , 800 , $path , $pic_name);
+			@img_resize($pic_temp_name , 500 , $path , 'med_'.$pic_name);
+			@img_resize($pic_temp_name , 200 , $path , 'small_'.$pic_name);
+			/* copy($pic_temp_name, $picture); */
+			@unlink($pic_temp_name);
+			$pic_names[] = $pic_name;
+			return $pic_names;
+		}
 
-								// Jika file tidak sesuai dengan format dan ukuranya terlalu besar
-								if(!in_array((@$pic_type),$format_gambar)) {
-									echo -2;
-									exit;
-								} else if(($pic_size =!0) && ($pic_size > 30000)) {
-									echo -3;
-									exit;
-								}
-
-								// Menggenerate file name location
-								$picture = $path.'/'.$pic_name;
-								@img_resize($pic_temp_name , 800 , $path , $pic_name);
-								@img_resize($pic_temp_name , 500 , $path , 'med_'.$pic_name);
-								@img_resize($pic_temp_name , 200 , $path , 'small_'.$pic_name);
-								/* copy($pic_temp_name, $picture); */
-								unlink($pic_temp_name);
-								$pic_names[] = $pic_name;
-							}
-							return $pic_names;
+	}
+		
 }
 
 /**
@@ -120,8 +109,8 @@ function multi_do_upload($files,$path) {
  */
 function img_resize($tmpname, $size, $save_dir, $save_name) {
 	$save_dir .= ( substr($save_dir,-1) != "/") ? "/" : "";
-	$gis       = GetImageSize($tmpname);
-	$type       = $gis[2];
+	$gis = GetImageSize($tmpname);
+	$type = $gis[2];
 	switch($type)
 	{
 		case "1": $imorig = imagecreatefromgif($tmpname); break;
@@ -145,8 +134,8 @@ function img_resize($tmpname, $size, $save_dir, $save_name) {
 	$im = imagecreate($av, $ah);
 	$im = imagecreatetruecolor($av,$ah);
 	if (imagecopyresampled($im,$imorig , 0,0,0,0,$av,$ah,$x,$y))
-	if (imagejpeg($im, $save_dir.$save_name))
-	return true;
+		if (imagejpeg($im, $save_dir.$save_name))
+		return true;
 	else
-	return false;
+		return false;
 }
