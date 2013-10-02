@@ -67,10 +67,13 @@ function multi_do_upload($files,$path) {
 		// Melakukan pengkondisian
 		if ($files['error'][$i] > 0) {
 			return 'err_file';
+			break;
 		} else if(!in_array((@$pic_type),$format_gambar)) {
 			return 'err_format';
-		} else if(($pic_size =! 0) && ($pic_size > 30000)) {
+			break;
+		} else if(($pic_size =! 0) && ($pic_size > 300000)) {
 			return 'err_size';
+			break;
 		} else {				
 			// Menggenerate file name location
 			$picture = $path.'/'.$pic_name;
@@ -80,10 +83,9 @@ function multi_do_upload($files,$path) {
 			/* copy($pic_temp_name, $picture); */
 			@unlink($pic_temp_name);
 			$pic_names[] = $pic_name;
-			return $pic_names;
 		}
-
 	}
+	return $pic_names;
 		
 }
 
