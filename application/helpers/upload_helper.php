@@ -25,21 +25,21 @@ function do_upload($files,$path) {
 		return 'err_file';
 	} else if(!in_array((@$pic_type),$format_gambar)) {
 		return 'err_format';
-	} else if(($pic_size =!0) && ($pic_size > 300000)) {
+	} else if(($pic_size =!0) && ($pic_size > 8000000)) {
 		return 'err_size';
 	} else {
 		// Membuat direktory folder dan menggenerate file name location
 		$oldmask = umask(0);
 		@mkdir($path, 0777);
 		@umask($oldmask);
-		$picture = $path.'/'.$pic_name;
-		@img_resize($pic_temp_name , 800 , $path , $pic_name);
-		@img_resize($pic_temp_name , 500 , $path , 'med_'.$pic_name);
-		@img_resize($pic_temp_name , 200 , $path , 'small_'.$pic_name);
+		$picture = $path.'/'.str_replace(' ', '__', $pic_name);
+		@img_resize($pic_temp_name , 800 , $path , str_replace(' ', '__', $pic_name));
+		@img_resize($pic_temp_name , 500 , $path , 'med_'.str_replace(' ', '__', $pic_name));
+		@img_resize($pic_temp_name , 200 , $path , 'small_'.str_replace(' ', '__', $pic_name));
 		//unlink($pic_temp_name);
 		
 		// Mengembalikan nilai picture yaitu berupa nama gambar yang diupload
-		return $pic_name;
+		return str_replace(' ', '__', $pic_name);
 	}
 }
 
@@ -71,18 +71,18 @@ function multi_do_upload($files,$path) {
 		} else if(!in_array((@$pic_type),$format_gambar)) {
 			return 'err_format';
 			break;
-		} else if(($pic_size =! 0) && ($pic_size > 300000)) {
+		} else if(($pic_size =! 0) && ($pic_size > 8000000)) {
 			return 'err_size';
 			break;
 		} else {				
 			// Menggenerate file name location
-			$picture = $path.'/'.$pic_name;
-			@img_resize($pic_temp_name , 800 , $path , $pic_name);
-			@img_resize($pic_temp_name , 500 , $path , 'med_'.$pic_name);
-			@img_resize($pic_temp_name , 200 , $path , 'small_'.$pic_name);
+			$picture = $path.'/'. str_replace(' ', '__', $pic_name);
+			@img_resize($pic_temp_name , 800 , $path , str_replace(' ', '__', $pic_name));
+			@img_resize($pic_temp_name , 500 , $path , 'med_'.str_replace(' ', '__', $pic_name));
+			@img_resize($pic_temp_name , 200 , $path , 'small_'.str_replace(' ', '__', $pic_name));
 			/* copy($pic_temp_name, $picture); */
 			@unlink($pic_temp_name);
-			$pic_names[] = $pic_name;
+			$pic_names[] = str_replace(' ', '__', $pic_name);
 		}
 	}
 	return $pic_names;
