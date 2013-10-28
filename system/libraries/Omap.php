@@ -170,13 +170,13 @@ class Omap {
 	/**
 	 * build_json_data to build data with json format
 	 * @param  $array_data
-	 *
+	 * @return json_data
 	 */
 	public function build_json_data($array_data) {
 		if (is_array($array_data)) {
 			echo json_encode($array_data);
 		} else {
-			echo "ERROR";
+			echo '{"notif":"ERROR","message": "OMAPS CI build_json_data failed, Data not Array!!"}';
 		}
 	}
 
@@ -190,19 +190,35 @@ class Omap {
 	}
 
 	/**
-	 * Pull to get push data 
-	 * @param  $api_controllers
-	 * @param  $api_method
-	 * @param  $param
-	 *
+	 * Pull to get push data
+	 * @param  $api_type
+	 * @param  $api_action
+	 * @return $data;
 	 */
-	public function pull($api_controllers, $api_method, $param = NULL) {
-		if ($param == NULL) {
-			return file_get_contents(base_url().'index.php/'.$api_controllers.'/'.$api_method);
-		} else {
-			return file_get_contents(base_url().'index.php/'.$api_controllers.'/'.$api_method.'/'.$param);
-		}
-		
+	public function pull($api_type, $api_action) {
+		$data = @file_get_contents(base_url().'index.php/api/'.$api_type.'/'.$api_action) or exit('API ERROR,  ACTION <b>'.$api_type.'</b> is illegal');
+		return $data;
+	}
+	
+	/**
+	 * Load Api Data
+	 * @param  $api_data
+	 * 
+	 */
+	public function api($api_file) {
+		$this->tpl->load->library('../controllers/'.$api_file);
+		return $this->tpl->$api_file;
+	}
+
+	/**
+	 * Set_tpl_data to set template of data
+	 * @param  $tpl
+	 * @param  $data
+	 * @return $tpl;
+	 */
+	public function mod_tpl_data($tpl, $data= NULL) {
+		$tpl = $this->tpl->load->view('modules/'.$tpl, $data, true);
+		return $tpl;
 	}
 
 	/**
@@ -347,7 +363,7 @@ class Omap {
 		}
 
 		if ($new_type == 'pages') {
-			# Manage module process
+			# Manage module process with file_get_contents
 			if ($new_modules != "") {
 				$count_modules = explode(',',$new_modules);
 				foreach ($count_modules as $modules) {
@@ -363,6 +379,26 @@ class Omap {
 					}
 				}
 			}
+			
+				
+			# Manage module process with curl
+			/*
+			if ($new_modules != "") {
+				$count_modules = explode(',',$new_modules);
+				foreach ($count_modules as $modules) {
+					# Prepare $modules_data to be default
+					if ($this->modules_data == NULL ) {
+						$file_data[strtoupper(trim($modules))] = @get_content_curl(base_url().'index.php/'.trim(str_replace('__','/',$modules))) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <b>'. $modules .'</b> Not Founds.</div>');
+					} else {
+						# is $modules_data is_array then exec http_build_query
+						if(is_array($this->modules_data)) {
+							$build_query_modules_data = http_build_query($this->modules_data,'',';');
+							$file_data[strtoupper(trim($modules))] = @get_content_curl(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?modules_data='.$build_query_modules_data) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <b>'. $modules .'</b> Not Founds.</div>');
+						}
+					}
+				}
+			}
+			*/
 
 			# Manage data
 			if ($this->get_data() != "default") {
