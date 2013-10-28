@@ -209,6 +209,16 @@ class Omap {
 		$this->tpl->load->library('../controllers/'.$api_file);
 		return $this->tpl->$api_file;
 	}
+	
+	/**
+	 * Load Controlles Data
+	 * @param  $api_data
+	 *
+	 */
+	public function controlles($controllers) {
+		$this->tpl->load->library('../controllers/'.$controllers);
+		return $this->tpl->$controllers;
+	}
 
 	/**
 	 * Set_tpl_data to set template of data
@@ -369,10 +379,12 @@ class Omap {
 				foreach ($count_modules as $modules) {
 					# Prepare $modules_data to be default
 					if ($this->modules_data == NULL ) {
+						$file_data[strtoupper(trim($modules))] = $this->tpl->load->library('../controllers/'.trim(str_replace('__','/',$modules))) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <b>'. $modules .'</b> Not Founds.</div>');
 						$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules))) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <b>'. $modules .'</b> Not Founds.</div>');
 					} else {
 						# is $modules_data is_array then exec http_build_query
 						if(is_array($this->modules_data)) {
+							trim(str_replace('__','/',$modules));
 							$build_query_modules_data = http_build_query($this->modules_data,'',';');
 							$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?modules_data='.$build_query_modules_data) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <b>'. $modules .'</b> Not Founds.</div>');
 						}
