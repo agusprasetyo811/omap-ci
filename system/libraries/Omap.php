@@ -232,11 +232,11 @@ class Omap {
 	}
 	
 	/**
-	 * Initial Omaps in variable
+	 * Register variable
 	 * @return $data;
 	 */
-	public function init() {
-		return $this->tpl->load->vars((get_modules_access_data($this->tpl->input->get('modules_data'))));
+	public function register_mod_var() {
+		return get_modules_access_data($this->tpl->input->get('modules_data'));
 	}
 
 	/**
@@ -426,7 +426,6 @@ class Omap {
 				ob_start();
 				$new_data = $this->get_data();
 				$file_data[strtoupper(trim($new_data))] = $new_data;
-				ob_end_clean();
 			}
 
 			# Manage view process
@@ -493,7 +492,7 @@ class Omap {
 			@parse_str($new_modules_data, $output_modules_data);
 			if (is_array($output_modules_data)) {
 				$output_modules_data;
-				 $this->tpl->load->vars($output_modules_data);
+				$this->tpl->load->vars($output_modules_data);
 				//@extract($output_modules_data);
 			}
 

@@ -13,6 +13,7 @@ h2. Method Reference
 * @$this->omap->template('template');@
 * @$this->omap->view('view');@
 * @$this->omap->display('display');@
+* @$this->omap->register_mod_var();@
 
 h2. Helper Reference
 
@@ -21,8 +22,13 @@ h2. Helper Reference
 * myfiles
 ** @write_to_file($file,$data);@
 ** @reading_file($file_txt);@
+** @delete_file($file);@
+** @delete_dir($dir);@
+** @read_dir($system_dir);@
 * session
 ** @get_access_login($session_name);@
+** @get_modules_access_data($modules_data);@
+** @isset_switch($data_a, $data_b);@
 * symbol
 ** @rp($data);@
 * time
@@ -32,21 +38,44 @@ h2. Helper Reference
 * upload
 ** @do_upload($files,$path);@
 ** @multi_do_upload($files,$path);@
+** @img_resize($tmpname, $size, $save_dir, $save_name);@
 * validation
-** @val_email($email);@
-** @val_no($key);@
-** @val_phone($key);@
-** @val_word($key);@
-** @limit_validation;@
-** @replace($karakter, $string);@
+** @email_match($email);@
+** @number_match($key);@
+** @phone_match($key);@
+** @word_match($key);@
+* db
+** @show_table_column($query);@
+** @show_json_column($json);@
+** @show_json_column_text($json, $sparator, $sort_desc);@
+** @sort_array_by_column(&$arr, $col, $dir = SORT_ASC);@
+** @array_merge_assoc($array1, $array2);@
+** @array_uniqe_by_subkey($array, $key);@
+** @array_empty_remove($array, $remove_null_number = true);@
+** @array_remove_by_index($array, $index);@
+** @array_search_multidimention($value_search, $key_in, $array);@
+** @sort_array_object_by_property( $array, $property );@
+* head
+** @js($link);@
+** @style($link);@
+** @meta($name, $content);@
+** @build_script($link);@
+** @build_style($link);@
+** @build_head($link);@
 
 h2. Labels Reference
 
 * @{SITE}@
 * @{SITE_INDEX}@
+* @{SITE_TEMPLATE}@
 * @{STYLE}@
 * @{JS}@
+* @{HEAD}@
+* @{ASSETS}@
 * @{IMAGES}@
+* @{TITLE}@
+* @{THEME}@
+* @{ADMIN_THEME}@
 * @{AUTHOR}@
 * @{DEVELOPER}@
 * @{DEVELOPER_SITE}@

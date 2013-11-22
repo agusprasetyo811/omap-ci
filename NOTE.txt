@@ -5,6 +5,7 @@ OMAP CI PROJECT
 - Penambahan config admin_theme setting
 - Penambahan Label ADMIN_THEME, THEME, FLUID_THEME & SITE_TEMPLATE
 - Add API Access
+- Add register_mod_var() Method to register modules variable 
 
 # VERSION 4.4
 >> Changelog:
@@ -12,7 +13,6 @@ OMAP CI PROJECT
 - Penambahan Error Handling
 - Penambahan struktur module baru
 - Auto reader column from DataBase
-
 
 
 
