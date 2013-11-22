@@ -482,7 +482,7 @@ class Omap {
 					$temp_body_data = ob_get_contents();
 				}
 				ob_end_clean();
-				exit(preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data));
+				exit(@preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data));
 			}
 
 		} else if ($new_type == 'modules') {
@@ -493,7 +493,7 @@ class Omap {
 			@parse_str($new_modules_data, $output_modules_data);
 			if (is_array($output_modules_data)) {
 				$output_modules_data;
-				echo $this->tpl->load->vars($output_modules_data);
+				 $this->tpl->load->vars($output_modules_data);
 				//@extract($output_modules_data);
 			}
 
@@ -527,7 +527,7 @@ class Omap {
 					$temp_body_data = ob_get_contents();
 				}
 				ob_end_clean();
-				exit(preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data));
+				exit(@preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data));
 			} else {
 				show_error('OMAPS-CI MESSAGE : Module File '.$body .'.php not found');
 			}
