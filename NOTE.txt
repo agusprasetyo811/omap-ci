@@ -1,5 +1,9 @@
 OMAP CI PROJECT
 
+# VERSION 4.6
+>> Changelog:
+ - Update show_error message
+
 # VERSION 4.5
 >> Changelog:
 - Penambahan config admin_theme setting
