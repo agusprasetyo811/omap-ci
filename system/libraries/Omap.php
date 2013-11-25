@@ -41,6 +41,7 @@ class Omap {
 
 	public function __construct() {
 		$this->tpl =& get_instance();
+		log_message('debug', 'OMAPS-CI '.$this->tpl->config->item('version').' RUNNING');
 	}
 
 	/**
@@ -196,7 +197,7 @@ class Omap {
 	 * @return $data;
 	 */
 	public function pull($api_type, $api_action) {
-		$data = @file_get_contents(base_url().'index.php/api/'.$api_type.'/'.$api_action) or exit('API ERROR,  ACTION <b>'.$api_type.'</b> is illegal');
+		$data = @file_get_contents(base_url().'index.php/api/'.$api_type.'/'.$api_action) or exit(show_error('OMAPS-CI API ERROR,  ACTION <b>'.$api_type.'</b> is illegal'));
 		return $data;
 	}
 	
@@ -390,12 +391,14 @@ class Omap {
 					if ($this->modules_data == NULL ) {
 						//$file_data[strtoupper(trim($modules))] = $this->tpl->load->library('../controllers/'.trim(str_replace('__','/',$modules))) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <b>'. $modules .'</b> Not Founds.</div>');
 						$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules))) or die(show_error('OMAPS-CI MESSAGE : Modules ( '. $modules .' ) Not Founds.'));
+						log_message('debug', 'OMAPS-CI '.$this->tpl->config->item('version').' RUNNING MODULES '. strtoupper(trim($modules)));
 					} else {
 						# is $modules_data is_array then exec http_build_query
 						if(is_array($this->modules_data)) {
 							trim(str_replace('__','/',$modules));
 							$build_query_modules_data = http_build_query($this->modules_data,'',';');
 							$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?modules_data='.$build_query_modules_data) or die(show_error('OMAPS-CI MESSAGE : Modules ( '. $modules .' ) Not Founds.'));
+							log_message('debug', 'OMAPS-CI '.$this->tpl->config->item('version').' RUNNING MODULES '. strtoupper(trim($modules)));
 						}
 					}
 				}
@@ -481,24 +484,24 @@ class Omap {
 					$temp_body_data = ob_get_contents();
 				}
 				ob_end_clean();
+				
 				exit(@preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data));
 			}
 
-		} else if ($new_type == 'modules') {
-			# Get modules_data
+		} else if ($new_type == 'modules') {	
 			// $modules_data = str_replace('______',' ', @$_GET['data']);
 			$modules_data = @$_GET['modules_data'];
 			$new_modules_data = str_replace(';','&',$modules_data);
 			@parse_str($new_modules_data, $output_modules_data);
 			if (is_array($output_modules_data)) {
 				$output_modules_data;
-				$this->tpl->load->vars($output_modules_data);
-				//@extract($output_modules_data);
+				@extract($output_modules_data);
 			}
-
+			
 			# Extract variable
 			@extract($data);
-
+		
+		
 			# Buffer to templates
 			ob_start();
 			$set_index_path = 'application/views/modules/'.$body.'.php';
@@ -526,6 +529,9 @@ class Omap {
 					$temp_body_data = ob_get_contents();
 				}
 				ob_end_clean();
+
+				
+				
 				exit(@preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data));
 			} else {
 				show_error('OMAPS-CI MESSAGE : Module File '.$body .'.php not found');
