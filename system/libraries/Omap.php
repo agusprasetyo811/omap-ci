@@ -8,7 +8,7 @@
  * @copyright	Copyright (c) 2012 - 2013, OMAPSLABS
  * @link		http://cmlocator.com
  * @filesource 	http://github.com/agusprasetyo811/omap-ci
- * @since		Version 4.5
+ * @since		Version 4.6
  *
  */
 
@@ -24,7 +24,7 @@
  * @author		OMAPSLABS
  * @link 		http://cmlocator.com
  */
-class Omap {
+class Omap  {
 
 	var $tpl;
 	var $type = "default";
@@ -32,6 +32,7 @@ class Omap {
 	var $title = "default";
 	var $modules = "default";
 	var $modules_data = "default";
+	var $modules_data_access_in_controller = FALSE;
 	var $data = "default";
 	var $set_index = "default";
 	var $set_view = "default";
@@ -105,11 +106,49 @@ class Omap {
 	/**
 	 * Module to set that the modules activate in any controller/views
 	 * @param  $modules
+	 * @param  $modules_data
+	 * @param  $access_in_controller
 	 *
 	 */
-	public function modules($modules, $modules_data = NULL) {
+	public function modules($modules, $modules_data = NULL, $access_in_controller = FALSE) {
 		$this->modules = $modules;
 		$this->modules_data = $modules_data;
+		$this->modules_data_access_in_controller = $access_in_controller;
+	}
+	
+	/**
+	 * Modules builder to set that the modules activate in any controller/views
+	 * @param  $modules
+	 *
+	 */
+	public function modules_build($modules) {
+		$this->modules = $modules;
+		$this->modules_data = $modules_data;
+		$this->modules_data_access_in_controller = TRUE;
+	}
+	
+	/**
+	 * Modules Register to register any modules and saving on sessions
+	 * @param  $mod
+	 *
+	 */
+	public function modules_register($mod) {
+		foreach ($mod as $m) {
+			$m_label = $m; 
+			$m_class = $m;
+			$get_method = explode('__', $m);
+			require_once 'application/controllers/'. $get_method[0].'.php';
+			$m_class = new $get_method[0]();
+			
+			//var_dump($get_method);
+			if (count($get_method) != 1) {	
+				$m = $m_class->$get_method[1]();
+				$this->tpl->session->set_userdata('session_mod_data_'.$m_label, $m);
+			} else {
+				$m = $m_class->index();
+				$this->tpl->session->set_userdata('session_mod_data_'.$m_label, $m);
+			}
+		}	
 	}
 
 	public function get_modules() {
@@ -212,14 +251,26 @@ class Omap {
 	}
 	
 	/**
-	 * Load Controlles Data
+	 * Load Single Controlles Data
 	 * @param  $api_data
 	 *
 	 */
-	public function controlles($controllers) {
-		$this->tpl->load->library('../controllers/'.$controllers);
-		return $this->tpl->$controllers;
+	public function controller($controllers, $return_data = NULL) {
+		if ($return_data != NULL) {
+			$get_method = explode('__', $controllers);
+			if (count($get_method) != 1) {
+				$this->tpl->load->library('../controllers/'.$get_method[0]);
+				return $this->tpl->$get_method[0]->$get_method[1]();
+			} else {
+				$this->tpl->load->library('../controllers/'.$get_method[0]);
+				return $this->tpl->$get_method[0]->index();
+			}
+		} else {
+			$this->tpl->load->library('../controllers/'.$controllers);
+			return $this->tpl->$controllers;
+		}
 	}
+	
 
 	/**
 	 * Set_tpl_data to set template of data
@@ -251,7 +302,7 @@ class Omap {
 	 * @param  $modules
 	 *
 	 */
-	public function display($body, $data = NULL, $type = NULL, $label = NULL, $title = NULL, $set_template = THEME, $set_index = NULL, $modules = NULL) {
+	public function display($body, $data = NULL, $return_display = FALSE, $type = NULL, $label = NULL, $title = NULL, $set_template = THEME, $set_index = NULL, $modules = NULL) {
 
 		$new_type = NULL;
 		$new_title = NULL;
@@ -373,7 +424,7 @@ class Omap {
 		ob_end_clean();
 
 		# Define Site Theme
-		define('FLUID_THEME', $new_template);
+		//define('FLUID_THEME', $new_template);
 
 		# Define head if set or not
 		if ($this->get_head() != "default") {
@@ -383,23 +434,40 @@ class Omap {
 		}
 
 		if ($new_type == 'pages') {
-			# Manage module process with file_get_contents
-			if ($new_modules != "") {
-				$count_modules = explode(',',$new_modules);
-				foreach ($count_modules as $modules) {
-					# Prepare $modules_data to be default
-					if ($this->modules_data == NULL ) {
-						//$file_data[strtoupper(trim($modules))] = $this->tpl->load->library('../controllers/'.trim(str_replace('__','/',$modules))) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <b>'. $modules .'</b> Not Founds.</div>');
-						$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules))) or die(show_error('OMAPS-CI MESSAGE : Modules ( '. $modules .' ) Not Founds.'));
-						log_message('debug', 'OMAPS-CI '.$this->tpl->config->item('version').' RUNNING MODULES '. strtoupper(trim($modules)));
-					} else {
-						# is $modules_data is_array then exec http_build_query
-						if(is_array($this->modules_data)) {
-							trim(str_replace('__','/',$modules));
-							$build_query_modules_data = http_build_query($this->modules_data,'',';');
-							$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?modules_data='.$build_query_modules_data) or die(show_error('OMAPS-CI MESSAGE : Modules ( '. $modules .' ) Not Founds.'));
-							log_message('debug', 'OMAPS-CI '.$this->tpl->config->item('version').' RUNNING MODULES '. strtoupper(trim($modules)));
+			
+			if ($this->modules_data_access_in_controller == FALSE ) {	
+				# Manage module process with file_get_contents
+				if ($new_modules != "") {
+					foreach ($new_modules as $modules) {
+						# Prepare $modules_data to be default
+						if ($this->modules_data == NULL ) {
+							//$file_data[strtoupper(trim($modules))] = $this->tpl->load->library('../controllers/'.trim(str_replace('__','/',$modules))) or die('<div style=position:relative; z-index:100; backgroud:white;><h3>OMAPS-CI MESSAGE :</h3><b style=color:red;>MODULES NULL</b> : <b>'. $modules .'</b> Not Founds.</div>');
+							$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)));
+							//log_message('debug', 'OMAPS-CI '.$this->tpl->config->item('version').' RUNNING MODULES '. strtoupper(trim($modules)));
+						} else {
+							# is $modules_data is_array then exec http_build_query
+							if(is_array($this->modules_data)) {
+								trim(str_replace('__','/',$modules)); 
+								$build_query_modules_data = http_build_query($this->modules_data,'',';');
+								$file_data[strtoupper(trim($modules))] = @file_get_contents(base_url().'index.php/'.trim(str_replace('__','/',$modules)).'?modules_data='.$build_query_modules_data);
+								//or die(show_error('OMAPS-CI MESSAGE : Modules ( '. $modules .' ) Not Founds.'))
+								//log_message('debug', 'OMAPS-CI '.$this->tpl->config->item('version').' RUNNING MODULES '. strtoupper(trim($modules)));
+							}
 						}
+					}
+				}
+			
+			} else {				
+				if ($new_modules != "") {
+					if (is_array($new_modules)) {
+						$modules = $new_modules;
+					} else {
+						$modules = array();
+					}
+					
+					foreach ($modules as $mod) {
+						$file_data[strtoupper(trim($mod))] = $this->tpl->session->userdata('session_mod_data_'.$mod);
+						$this->tpl->session->unset_userdata('session_mod_data_'.$mod);
 					}
 				}
 			}
@@ -485,7 +553,11 @@ class Omap {
 				}
 				ob_end_clean();
 				
-				exit(@preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data));
+				if ($return_display == TRUE) {
+					return @preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data);
+				} else {
+					exit(@preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data));
+				}
 			}
 
 		} else if ($new_type == 'modules') {	
@@ -529,10 +601,12 @@ class Omap {
 					$temp_body_data = ob_get_contents();
 				}
 				ob_end_clean();
-
 				
-				
-				exit(@preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data));
+				if ($return_display == TRUE) {
+					return @preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data);
+				} else {
+					exit(@preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data));
+				}
 			} else {
 				show_error('OMAPS-CI MESSAGE : Module File '.$body .'.php not found');
 			}
