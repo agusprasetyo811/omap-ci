@@ -14,6 +14,11 @@ h2. Method Reference
 * @$this->omap->view('view');@
 * @$this->omap->display('display');@
 * @$this->omap->register_mod_var();@
+* @$this->omap->mod_tpl_data($tpl_mod_file, $data);@
+* @$this->omap->api('api');@
+* @$this->omap->module_build($mod);@
+* @$this->omap->module_register($mod);@
+
 
 h2. Helper Reference
 

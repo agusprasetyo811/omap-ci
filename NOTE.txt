@@ -3,6 +3,10 @@ OMAP CI PROJECT
 # VERSION 4.6
 >> Changelog:
  - Update show_error message
+ - New register modules variable
+ - New Modules template creator
+ - New API builder and Controller loader to load another controller
+ - New modules register and builder with   
 
 # VERSION 4.5
 >> Changelog:
@@ -17,6 +21,8 @@ OMAP CI PROJECT
 - Penambahan Error Handling
 - Penambahan struktur module baru
 - Auto reader column from DataBase
+
+
 
 
 
@@ -138,6 +144,37 @@ API Dibuat didalam modules
 $this->omap->build_json_data($array_data); --> Formating data ke array dan langsung ditamplkan ke layar
 $this->omap->push($data); --> Mengirim data keluar
 $this->omap->pull('API_CONTROLLER' 'API_METHOD'); --> Menarik data yang telah di push dengan parameter API_CONTROLLERS dan METHOD_API
+
+
+New modules register and builder with 
+$this->omap->module_register($mod);
+$this->omap->module_build($mod);
+
+New api and controller to load another controller
+$this->omap->api($controller_api_name);
+Then call api method with array parameter;
+ex :
+$this->omap->api('api'); 
+$this->api->product('get_product', array('id_product'=>1))
+
+$this->omap->controller($controller_name, $return_data); 
+$return_data -> TRUE/FALSE. 
+TRUE => will return string data 
+FALSE => we can call any method in controller
+ex: 
+$mod[] = mod('mod_1');
+$mod[] = mod('mod_2');
+$this->omap->modules_register($mod);
+$this->omap->modules_build($mod);
+
+New create template with 
+$this->omap->mod_tpl_data($tpl_mod_file, $data)
+$tpl_mod_file = views modules that be templates
+$data = array data if any
+
+New register modules variable
+$this->omap->register_mod_var()
+This is use to register if modules with first version 
 
 
 
