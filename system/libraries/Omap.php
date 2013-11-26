@@ -123,7 +123,6 @@ class Omap  {
 	 */
 	public function modules_build($modules) {
 		$this->modules = $modules;
-		$this->modules_data = $modules_data;
 		$this->modules_data_access_in_controller = TRUE;
 	}
 	
