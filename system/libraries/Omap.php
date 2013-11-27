@@ -8,7 +8,7 @@
  * @copyright	Copyright (c) 2012 - 2013, OMAPSLABS
  * @link		http://cmlocator.com
  * @filesource 	http://github.com/agusprasetyo811/omap-ci
- * @since		Version 4.6
+ * @since		Version 4.5
  *
  */
 
@@ -119,6 +119,8 @@ class Omap  {
 	/**
 	 * Modules builder to set that the modules activate in any controller/views
 	 * @param  $modules
+	 * @param  $modules_data
+	 * @param  $access_in_controller
 	 *
 	 */
 	public function modules_build($modules) {
@@ -132,22 +134,22 @@ class Omap  {
 	 *
 	 */
 	public function modules_register($mod) {
-		foreach ($mod as $m) {
-			$m_label = $m; 
-			$m_class = $m;
-			$get_method = explode('__', $m);
-			require_once 'application/controllers/'. $get_method[0].'.php';
-			$m_class = new $get_method[0]();
+// 		foreach ($mod as $m) {
+// 			$m_label = $m; 
+// 			$m_class = $m;
+// 			$get_method = explode('__', $m);
+// 			require_once 'application/controllers/'. $get_method[0].'.php';
+// 			$m_class = new $get_method[0]();
 			
-			//var_dump($get_method);
-			if (count($get_method) != 1) {	
-				$m = $m_class->$get_method[1]();
-				$this->tpl->session->set_userdata('session_mod_data_'.$m_label, $m);
-			} else {
-				$m = $m_class->index();
-				$this->tpl->session->set_userdata('session_mod_data_'.$m_label, $m);
-			}
-		}	
+// 			//var_dump($get_method);
+// 			if (count($get_method) != 1) {	
+// 				//$m = $m_class->$get_method[1]();
+// 				//$this->tpl->session->set_userdata('session_mod_data_'.$m_label, base64_encode($m));
+// 			} else {
+// 				//$m = $m_class->index();
+// 				//$this->tpl->session->set_userdata('session_mod_data_'.$m_label, base64_encode('x'));
+// 			}
+// 		}	
 	}
 
 	public function get_modules() {
@@ -185,8 +187,8 @@ class Omap  {
 	 * @param  $folder_fiew
 	 *
 	 */
-	public function view($folder_fiew) {
-		$this->set_view = $folder_fiew;
+	public function view($folder_view) {
+		$this->set_view = $folder_view;
 	}
 
 	public function get_view() {
@@ -415,7 +417,6 @@ class Omap  {
 		$file_data['ASSETS'] = ASSETS .'/';
 		$file_data['THEME'] = THEME;
 		$file_data['ADMIN_THEME'] = ADMIN_THEME;
-		$file_data['FLUID_THEME'] = $new_template;
 		$file_data['AUTHOR'] = AUTHOR;
 		$file_data['VERSION'] = VERSION;
 		$file_data['SINCE'] = SINCE;
@@ -465,8 +466,16 @@ class Omap  {
 					}
 					
 					foreach ($modules as $mod) {
-						$file_data[strtoupper(trim($mod))] = $this->tpl->session->userdata('session_mod_data_'.$mod);
-						$this->tpl->session->unset_userdata('session_mod_data_'.$mod);
+						$m_class = $mod;
+						$get_method = explode('__', $mod);
+						require_once 'application/controllers/'. $get_method[0].'.php';
+						$m_class = new $get_method[0]();
+						$get_method = explode('__', $mod);
+						if (count($get_method) != 1 ){
+							$file_data[strtoupper(trim($mod))] = $m_class->$get_method[1]();
+						} else {
+							$file_data[strtoupper(trim($mod))] = $m_class->index();
+						}
 					}
 				}
 			}
@@ -552,11 +561,7 @@ class Omap  {
 				}
 				ob_end_clean();
 				
-				if ($return_display == TRUE) {
-					return @preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data);
-				} else {
-					exit(@preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data));
-				}
+				exit(@preg_replace('/\{(\w+)\}/e',"\$file_data['\\1']",$temp_body_data));
 			}
 
 		} else if ($new_type == 'modules') {	
